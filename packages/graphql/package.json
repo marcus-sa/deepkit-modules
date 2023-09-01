@@ -1,0 +1,10 @@
+{
+  "name": "@deepkitx/graphql",
+  "version": "0.0.1",
+  "dependencies": {
+    "graphql-scalars": "1.22.2"
+  },
+  "peerDependencies": {
+    "graphql": "16.8.0"
+  }
+}
