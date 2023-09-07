@@ -6,16 +6,18 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import { GraphQLSchema } from 'graphql';
 import { WebWorkerFactory,ApplicationServer, WebWorker } from '@deepkit/framework';
 import { eventDispatcher } from '@deepkit/event';
-import { httpWorkflow } from '@deepkit/http';
+import { HttpBadRequestError, httpWorkflow } from '@deepkit/http';
 import { Driver } from '@deepkitx/graphql';
 
 export class ApolloDriver extends Driver {
   private server?: ApolloServer | null;
 
-  constructor(private readonly appServer: ApplicationServer, private readonly webWorkerFactory: WebWorkerFactory) {
+  constructor(
+    private readonly appServer: ApplicationServer,
+    private readonly webWorkerFactory: WebWorkerFactory,
+  ) {
     super();
   }
-
 
   @eventDispatcher.listen(httpWorkflow.onRequest, 1)
   async onRequest(
@@ -23,23 +25,23 @@ export class ApolloDriver extends Driver {
   ) {
     if (!event.request.method) return;
 
-    const headers = new HeaderMap()
+    const requestHeaders = new HeaderMap()
     for (const [key, value] of Object.entries(event.request.headers)) {
       if (value) {
         // Node/Express headers can be an array or a single value. We join
-        // multi-valued headers with `, ` just like the Fetch API's `Headers`
+        // multivalued headers with `, ` just like the Fetch API's `Headers`
         // does. We assume that keys are already lower-cased (as per the Node
         // docs on IncomingMessage.headers) and so we don't bother to lower-case
         // them or combine across multiple keys that would lower-case to the
         // same value.
-        headers.set(key, Array.isArray(value) ? value.join(', ') : value);
+        requestHeaders.set(key, Array.isArray(value) ? value.join(', ') : value);
       }
     }
 
 
     const httpGraphQLRequest: HTTPGraphQLRequest = {
       method: event.request.method,
-      headers,
+      headers: requestHeaders,
       search: url.parse(event.url).search ?? '',
       body: await event.request.readBody(),
     };
@@ -49,29 +51,20 @@ export class ApolloDriver extends Driver {
       httpGraphQLRequest,
       context: async () => ({}),
     })
-
-
-    for (const [key, value] of response!.headers) {
-      event.response.setHeader(key, value);
+    if (!response) {
+      throw new HttpBadRequestError(JSON.stringify(httpGraphQLRequest))
     }
 
-    for await (const chunk of response?.body.asyncIterator) {
-      res.write(chunk);
-      // Express/Node doesn't define a way of saying "it's time to send this
-      // data over the wire"... but the popular `compression` middleware
-      // (which implements `accept-encoding: gzip` and friends) does, by
-      // monkey-patching a `flush` method onto the response. So we call it
-      // if it's there.
-      if (typeof (res as any).flush === 'function') {
-        (res as any).flush();
+    const responseHeaders = Object.fromEntries(response.headers.entries());
+    event.response.writeHead(response.status || 200, undefined, responseHeaders);
+
+    if (response.body.kind === 'complete') {
+      event.response.write(response.body.string);
+    } else {
+      for await (const chunk of response?.body.asyncIterator) {
+        event.response.write(chunk);
       }
     }
-
-    if (response?.body.kind === 'complete') {
-      event.response.write(response.body.string);
-      return;
-    }
-    // res.statusCode = httpGraphQLResponse.status || 200;
 
     event.response.end();
   }
