@@ -21,12 +21,17 @@ export class UserResolver {
     return await this.post.findByAuthor(parent);
   }
 
+  @graphql.query()
+  async getUser(id: User['id']): Promise<User> {
+    return await this.user.findOne({ id });
+  }
+
   @graphql.mutation()
-  async createUser(args: CreateUserArgs): Promise<User> {
-    const user = User.create(args);
+  async createUser(data: CreateUserArgs): Promise<User> {
+    const user = User.create(data);
 
     await this.db.persist(user);
 
-    return await this.user.findOne(user);
+    return user;
   }
 }

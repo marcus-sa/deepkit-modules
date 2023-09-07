@@ -19,4 +19,12 @@ export class PostRepository {
   async findByAuthor(author: User): Promise<readonly Post[]> {
     return await this.find({ author });
   }
+
+  async create(author: User, data: Pick<Post, 'title' | 'content'>): Promise<Post> {
+    const post = Post.create(author, data);
+
+    await this.db.persist(post, author);
+
+    return post;
+  }
 }

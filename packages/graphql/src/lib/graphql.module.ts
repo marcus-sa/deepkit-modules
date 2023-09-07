@@ -33,7 +33,6 @@ export class GraphQLModule extends createModule({
       provide: Driver,
       useClass: driver,
     });
-    this.addListener(driver);
     return this;
   }
 

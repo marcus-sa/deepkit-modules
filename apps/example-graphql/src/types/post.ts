@@ -1,4 +1,4 @@
-import { cast, entity, PrimaryKey, Reference, uuid, UUID } from '@deepkit/type';
+import { entity, PrimaryKey, Reference, uuid, UUID } from '@deepkit/type';
 
 import { User } from './user';
 
@@ -6,15 +6,17 @@ import { User } from './user';
 export class Post {
   readonly id: UUID & PrimaryKey = uuid();
 
-  readonly title: string;
+  readonly createdAt: Date = new Date();
 
-  readonly content: string;
+  constructor(
+    readonly author: User & Reference,
+    readonly title: string,
+    readonly content: string
+  ) {}
 
-  readonly author: User & Reference;
-
-  readonly createdAt = new Date();
-
-  static create(author: User, data: Pick<Post, 'title' | 'content'>): Post {
-    return cast<Post>({ author, ...data });
+  static create(author: User, { title, content }: Pick<Post, 'title' | 'content'>): Post {
+    const post = new Post(author, title, content);
+    author.addPost(post);
+    return post;
   }
 }

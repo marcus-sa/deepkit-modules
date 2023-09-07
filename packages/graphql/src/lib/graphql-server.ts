@@ -1,14 +1,9 @@
 import { InjectorContext } from '@deepkit/injector';
 import { eventDispatcher } from '@deepkit/event';
-import {
-  onServerBootstrap,
-  onServerBootstrapDone,
-  onServerMainBootstrapDone,
-  onServerMainShutdown,
-  onServerShutdown,
-} from '@deepkit/framework';
-import { Driver } from './driver';
+import { httpWorkflow } from '@deepkit/http';
+import { onServerMainBootstrapDone, onServerMainShutdown } from '@deepkit/framework';
 
+import { Driver } from './driver';
 import { DeepkitGraphQLResolvers, Resolvers } from './resolvers';
 import { buildSchema } from './schema-builder';
 
@@ -17,7 +12,8 @@ export class GraphQLServer {
     private readonly resolvers: DeepkitGraphQLResolvers,
     private readonly injectorContext: InjectorContext,
     private readonly driver: Driver,
-  ) {}
+  ) {
+  }
 
   private createResolvers(): Resolvers {
     return new Resolvers(
@@ -38,5 +34,11 @@ export class GraphQLServer {
   @eventDispatcher.listen(onServerMainShutdown)
   async onServerMainShutdown(): Promise<void> {
     await this.driver.stop();
+  }
+
+
+  @eventDispatcher.listen(httpWorkflow.onRequest)
+  async onRequest(event: typeof httpWorkflow.onRequest.event): Promise<void> {
+    await this.driver.onRequest(event);
   }
 }

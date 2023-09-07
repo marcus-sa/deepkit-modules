@@ -94,8 +94,6 @@ export type GraphQLFields<T> = Record<string, { readonly type: T }>;
 
 export const PARENT_META_NAME = 'parent';
 
-export const parentAnnotation = new AnnotationDefinition(PARENT_META_NAME);
-
 // eslint-disable-next-line functional/prefer-readonly-type
 export type Parent<T> = T & { __meta?: [typeof PARENT_META_NAME, T] };
 

@@ -1,7 +1,6 @@
 import { App } from '@deepkit/app';
 import { FrameworkModule } from '@deepkit/framework';
 import { ApolloGraphQLModule } from '@deepkitx/apollo-graphql';
-import { ApolloServerPluginLandingPageGraphQLPlayground } from '@apollo/server-plugin-landing-page-graphql-playground';
 
 import { PostResolver, UserResolver } from './resolvers';
 import { Config } from './config';
@@ -12,10 +11,9 @@ void new App({
   config: Config,
   imports: [
     new FrameworkModule({ port: 8080 }),
-    new ApolloGraphQLModule({ introspection: true }).addPlugin(
-      ApolloServerPluginLandingPageGraphQLPlayground(),
-    ),
+    new ApolloGraphQLModule({ introspection: true }),
   ],
+  listeners: [Database],
   controllers: [PostResolver, UserResolver],
   providers: [Database, UserRepository, PostRepository],
 })

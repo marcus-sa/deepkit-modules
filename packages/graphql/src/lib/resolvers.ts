@@ -13,7 +13,7 @@ import {
   ValidationError,
 } from '@deepkit/type';
 
-import { Instance, PARENT_META_NAME, parentAnnotation } from './types-builder';
+import { Instance, PARENT_META_NAME } from './types-builder';
 
 export class DeepkitGraphQLResolvers extends Set<{
   readonly module: InjectorModule;
@@ -31,34 +31,22 @@ export class Resolvers extends WeakMap<ClassType, Instance> {
     super(entries);
     entries.forEach(([classType]) => this.classTypes.add(classType));
   }
-
-  /*set(classType: ClassType, instance: Instance): this {
-    this.classTypes.add(classType);
-    super.set(classType, instance);
-    return this;
-  }
-
-  delete(classType: ClassType): boolean {
-    this.classTypes.delete(classType);
-    return super.delete(classType);
-  }*/
 }
 
 export function getParentMetaAnnotationReflectionParameterIndex(
   parameters: readonly ReflectionParameter[],
 ): number {
   return parameters.findIndex(({ parameter }) =>
-    metaAnnotation.getForName(parameter.type, PARENT_META_NAME),
+    metaAnnotation.getForName(parameter.type, PARENT_META_NAME) ||
+    // FIXME: Parent<T> annotation is somehow not available when using Webpack
+    parameter.type.kind === ReflectionKind.unknown,
   );
 }
 
 export function filterReflectionParametersMetaAnnotationsForArguments(
   parameters: readonly ReflectionParameter[],
 ): readonly ReflectionParameter[] {
-  const argsParameters = [...parameters].filter(
-    // FIXME: Parent<T> annotation is somehow not available when using Webpack
-    parameter => parameter.type.kind !== ReflectionKind.unknown,
-  );
+  const argsParameters = [...parameters];
 
   const parentIndex =
     getParentMetaAnnotationReflectionParameterIndex(argsParameters);
@@ -76,15 +64,14 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
   instance: Resolver,
   { parameters, name, type }: ReflectionMethod,
 ): GraphQLFieldResolver<unknown, unknown, Args> {
-  const resolve = instance[name as keyof Resolver] as (
+  // @ts-ignore
+  const resolve = instance[name as keyof Resolver].bind(instance) as (
     ...args: Args
   ) => unknown;
 
   return async (parent, args) => {
     const argsParameters =
       filterReflectionParametersMetaAnnotationsForArguments(parameters);
-
-    console.log(name, argsParameters);
 
     const argsValidationErrors = argsParameters.flatMap(parameter =>
       validate(args[parameter.name as keyof Args], parameter.type),

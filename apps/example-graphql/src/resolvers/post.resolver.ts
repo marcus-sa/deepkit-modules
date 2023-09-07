@@ -15,21 +15,23 @@ export class PostResolver {
     private readonly db: Database,
     private readonly user: UserRepository,
     private readonly post: PostRepository,
-  ) {}
+  ) {
+  }
 
   @graphql.resolveField()
   async author(parent: Parent<Post>): Promise<User> {
     return await this.user.findOneByPost(parent);
   }
 
+  @graphql.query()
+  async getPost(id: Post['id']): Promise<Post> {
+    return await this.post.findOne({ id });
+  }
+
   @graphql.mutation()
   async createPost(authorId: User['id'], data: CreatePostArgs): Promise<Post> {
     const author = await this.user.findOne({ id: authorId });
 
-    const post = Post.create(author, data);
-
-    await this.db.persist(post);
-
-    return this.post.findOne(post);
+    return await this.post.create(author, data);
   }
 }

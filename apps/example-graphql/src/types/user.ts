@@ -1,8 +1,9 @@
+import type { Writable } from 'type-fest';
 import {
   BackReference,
-  cast,
   entity,
   PrimaryKey,
+  Unique,
   uuid,
   UUID,
 } from '@deepkit/type';
@@ -13,13 +14,17 @@ import { Post } from './post';
 export class User {
   readonly id: UUID & PrimaryKey = uuid();
 
-  readonly posts?: readonly Post[] & BackReference;
+  readonly posts: readonly Post[] & BackReference = [];
 
-  readonly username: string;
+  readonly createdAt: Date = new Date();
 
-  readonly createdAt = new Date();
+  constructor(readonly username: string & Unique) {}
 
-  static create(data: Pick<User, 'username'>): User {
-    return cast<User>(data);
+  static create({ username }: Pick<User, 'username'>): User {
+    return new User(username);
+  }
+
+  addPost(post: Post): void {
+    (this as Writable<this>).posts = [...this.posts, post];
   }
 }
