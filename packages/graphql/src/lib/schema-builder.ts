@@ -1,10 +1,16 @@
 import { ReceiveType, resolveReceiveType, Type } from '@deepkit/type';
-import { GraphQLFieldConfigMap, GraphQLNamedType, GraphQLObjectType, GraphQLSchema, GraphQLString } from 'graphql';
+import { ClassType } from '@deepkit/core';
+import {
+  GraphQLFieldConfigMap,
+  GraphQLNamedType,
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString
+} from 'graphql';
 
 import { Resolvers } from './resolvers';
 import { TypesBuilder } from './types-builder';
 import { gqlResolverDecorator } from './decorators';
-import { ClassType } from '@deepkit/core';
 
 export interface SchemaBuilderOptions {
   readonly resolvers: Resolvers;
@@ -28,14 +34,12 @@ export class SchemaBuilder {
 
   private buildInputTypes(): readonly GraphQLNamedType[] {
     return [...this.inputTypes].map(type =>
-      // input or output?
       this.typesBuilder.createNamedInputType(type),
     );
   }
 
   private buildOutputTypes(): readonly GraphQLNamedType[] {
     return [...this.outputTypes].map(type =>
-      // input or output?
       this.typesBuilder.createNamedOutputType(type),
     );
   }
@@ -146,7 +150,7 @@ export class SchemaBuilder {
   buildSchema(): GraphQLSchema {
     const mutation = this.buildRootMutationType();
     const query = this.buildRootQueryType();
-    const types = [...this.buildInputTypes(), ...this.buildInputTypes()];
+    const types = [...this.buildInputTypes(), ...this.buildOutputTypes()];
 
     return new GraphQLSchema({
       query,

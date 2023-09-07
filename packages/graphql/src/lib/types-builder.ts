@@ -6,6 +6,7 @@ import {
   ReflectionParameter,
   resolveReceiveType,
   resolveRuntimeType,
+  AnnotationDefinition,
   Type,
   TypeArray,
   TypeClass,
@@ -95,6 +96,8 @@ export type GraphQLFields<T> = Record<string, { readonly type: T }>;
 
 export const PARENT_META_NAME = 'Parent';
 
+export const parentAnnotation = new AnnotationDefinition(PARENT_META_NAME);
+
 // eslint-disable-next-line functional/prefer-readonly-type
 export type Parent<T> = T & { __meta?: [typeof PARENT_META_NAME, T] };
 
@@ -180,7 +183,6 @@ export class TypesBuilder {
         return GraphQLString;
 
       default:
-        console.log(type);
         throw new Error(`Kind ${type.kind} is not supported`);
     }
   }
@@ -225,7 +227,6 @@ export class TypesBuilder {
         type.kind !== ReflectionKind.class &&
         type.kind !== ReflectionKind.objectLiteral
       ) {
-        console.log(type);
         throw new Error('Only classes and interfaces are supported for unions');
       }
 
@@ -262,11 +263,11 @@ export class TypesBuilder {
       case Date.name:
         return GraphQLTimestamp;
 
+      case ArrayBuffer.name:
       case Uint8Array.name:
         return GraphQLByte;
 
       default:
-        console.log(type);
         throw new Error(
           `${type.classType.name} is not a supported scalar type`,
         );
@@ -376,6 +377,8 @@ export class TypesBuilder {
 
   createOutputType<T>(type?: ReceiveType<T>): GraphQLOutputType {
     type = resolveReceiveType(type);
+
+    console.log(type);
 
     if (type.typeName === 'ID') return GraphQLID;
 

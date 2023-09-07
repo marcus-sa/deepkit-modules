@@ -1,22 +1,22 @@
 {
-  "name": "graphql",
+  "name": "apollo-graphql-driver",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/graphql/src",
+  "sourceRoot": "packages/apollo-graphql-driver/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/graphql",
-        "tsConfig": "packages/graphql/tsconfig.lib.json",
-        "packageJson": "packages/graphql/package.json",
-        "main": "packages/graphql/src/index.ts",
-        "assets": ["packages/graphql/*.md"]
+        "outputPath": "dist/packages/apollo-graphql-driver",
+        "tsConfig": "packages/apollo-graphql-driver/tsconfig.lib.json",
+        "packageJson": "packages/apollo-graphql-driver/package.json",
+        "main": "packages/apollo-graphql-driver/src/index.ts",
+        "assets": ["packages/apollo-graphql-driver/*.md"]
       }
     },
     "publish": {
-      "command": "node tools/scripts/publish.mjs graphql {args.ver} {args.tag}",
+      "command": "node tools/scripts/publish.mjs apollo-graphql-driver {args.ver} {args.tag}",
       "dependsOn": ["build"]
     },
     "lint": {
@@ -24,8 +24,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "packages/graphql/**/*.ts",
-          "packages/graphql/package.json"
+          "packages/apollo-graphql-driver/**/*.ts",
+          "packages/apollo-graphql-driver/package.json"
         ]
       }
     },
@@ -33,7 +33,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/graphql/jest.config.ts",
+        "jestConfig": "packages/apollo-graphql-driver/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

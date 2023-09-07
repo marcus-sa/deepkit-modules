@@ -1,0 +1,14 @@
+{
+  "name": "@deepkitx/apollo-graphql-driver",
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "2.6.2",
+    "@apollo/server": "4.9.3"
+  },
+  "peerDependencies": {
+    "@deepkitx/graphql": "*",
+    "@deepkitx/framework": "*",
+    "@deepkit/http": "*",
+    "graphql": "16.8.0"
+  }
+}

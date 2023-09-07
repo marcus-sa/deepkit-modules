@@ -1,5 +1,5 @@
-import { graphql as executeGraphQL, GraphQLObjectType, GraphQLSchema } from 'graphql';
-import { assert, cast, integer, MinLength, PositiveNoZero, uuid, UUID } from '@deepkit/type';
+import { graphql as executeGraphQL } from 'graphql';
+import { assert, cast, integer, MinLength, PositiveNoZero, UUID } from '@deepkit/type';
 
 import { graphql } from './decorators';
 import { Parent, TypesBuilder } from './types-builder';
