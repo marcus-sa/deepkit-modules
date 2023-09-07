@@ -9,6 +9,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^17.7.0",
     "@commitlint/config-nx-scopes": "^17.6.4",
+    "@deepkit/postgres": "1.0.1-alpha.98",
     "@nx/devkit": "^16.8.0",
     "@nx/esbuild": "16.7.4",
     "@nx/eslint-plugin": "16.7.4",
@@ -33,6 +34,8 @@
     "jest": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "lefthook": "^1.4.9",
+    "neonctl": "^1.21.3",
+    "node-gyp": "^9.4.0",
     "node-gyp-build": "^4.6.1",
     "nx": "16.7.4",
     "prettier": "^2.6.2",
@@ -46,6 +49,7 @@
   },
   "dependencies": {
     "@apollo/server": "4.9.3",
+    "@apollo/server-plugin-landing-page-graphql-playground": "^4.0.1",
     "@deepkit/app": "1.0.1-alpha.98",
     "@deepkit/broker": "^1.0.1-alpha.97",
     "@deepkit/bson": "^1.0.1-alpha.97",

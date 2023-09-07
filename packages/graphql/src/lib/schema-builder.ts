@@ -5,7 +5,7 @@ import {
   GraphQLNamedType,
   GraphQLObjectType,
   GraphQLSchema,
-  GraphQLString
+  GraphQLString,
 } from 'graphql';
 
 import { Resolvers } from './resolvers';
@@ -29,8 +29,7 @@ export class SchemaBuilder {
 
   private readonly typesBuilder = new TypesBuilder(this.options.resolvers);
 
-  constructor(private readonly options: SchemaBuilderOptions) {
-  }
+  constructor(private readonly options: SchemaBuilderOptions) {}
 
   private buildInputTypes(): readonly GraphQLNamedType[] {
     return [...this.inputTypes].map(type =>
@@ -47,8 +46,8 @@ export class SchemaBuilder {
   private buildRootMutationType(): GraphQLObjectType | undefined {
     const classTypes = [...this.options.resolvers.classTypes];
 
-    const someMutations = classTypes.some(
-      classType => this.hasMutationResolvers(classType),
+    const someMutations = classTypes.some(classType =>
+      this.hasMutationResolvers(classType),
     );
     if (!someMutations) return;
 
@@ -103,8 +102,8 @@ export class SchemaBuilder {
   private buildRootQueryType(): GraphQLObjectType | undefined {
     const classTypes = [...this.options.resolvers.classTypes];
 
-    const someQueries = classTypes.some(
-      classType => this.hasQueryResolvers(classType),
+    const someQueries = classTypes.some(classType =>
+      this.hasQueryResolvers(classType),
     );
     if (!someQueries) {
       return new GraphQLObjectType({

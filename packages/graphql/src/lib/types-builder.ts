@@ -1,12 +1,12 @@
 import { ClassType } from '@deepkit/core';
 import {
+  AnnotationDefinition,
   ReceiveType,
   ReflectionClass,
   ReflectionKind,
   ReflectionParameter,
   resolveReceiveType,
   resolveRuntimeType,
-  AnnotationDefinition,
   Type,
   TypeArray,
   TypeClass,
@@ -17,23 +17,21 @@ import {
   TypeUnion,
 } from '@deepkit/type';
 import {
-  GraphQLEnumType,
-  GraphQLFieldConfigMap,
-  GraphQLInputObjectType,
-  GraphQLNamedInputType,
-  GraphQLObjectType,
-} from 'graphql';
-import {
   GraphQLBoolean,
+  GraphQLEnumType,
   GraphQLEnumValueConfigMap,
   GraphQLFieldConfig,
+  GraphQLFieldConfigMap,
   GraphQLFloat,
   GraphQLID,
+  GraphQLInputObjectType,
   GraphQLInputType,
   GraphQLInt,
-  GraphQLNamedOutputType,
   GraphQLList,
+  GraphQLNamedInputType,
+  GraphQLNamedOutputType,
   GraphQLNonNull,
+  GraphQLObjectType,
   GraphQLOutputType,
   GraphQLScalarType,
   GraphQLString,
@@ -56,9 +54,9 @@ import {
 
 import { gqlResolverDecorator, typeResolvers } from './decorators';
 import {
-  Resolvers,
   createResolveFunction,
   filterReflectionParametersMetaAnnotationsForArguments,
+  Resolvers,
 } from './resolvers';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -94,7 +92,7 @@ export function requireTypeName(type: TypeObjectLiteral | TypeClass): string {
 
 export type GraphQLFields<T> = Record<string, { readonly type: T }>;
 
-export const PARENT_META_NAME = 'Parent';
+export const PARENT_META_NAME = 'parent';
 
 export const parentAnnotation = new AnnotationDefinition(PARENT_META_NAME);
 
@@ -183,6 +181,7 @@ export class TypesBuilder {
         return GraphQLString;
 
       default:
+        console.log(type);
         throw new Error(`Kind ${type.kind} is not supported`);
     }
   }
@@ -378,8 +377,6 @@ export class TypesBuilder {
   createOutputType<T>(type?: ReceiveType<T>): GraphQLOutputType {
     type = resolveReceiveType(type);
 
-    console.log(type);
-
     if (type.typeName === 'ID') return GraphQLID;
 
     switch (type.kind) {
@@ -477,9 +474,10 @@ export class TypesBuilder {
   createInputArgsFromReflectionParameters(
     parameters: readonly ReflectionParameter[],
   ) {
-    return filterReflectionParametersMetaAnnotationsForArguments(
-      parameters,
-    ).reduce((args, parameter) => {
+    const argsParameters =
+      filterReflectionParametersMetaAnnotationsForArguments(parameters);
+
+    return argsParameters.reduce((args, parameter) => {
       let type = this.createInputType(parameter.type);
       // TODO: assert for null
       if (!parameter.isOptional()) {

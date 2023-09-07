@@ -28,17 +28,18 @@ export class GraphQLModule extends createModule({
     })*/
   }
 
-  useDriver(driver: ClassType<Driver>): this  {
+  useDriver(driver: ClassType<Driver>): this {
     this.addProvider({
       provide: Driver,
       useClass: driver,
-    })
+    });
+    this.addListener(driver);
     return this;
   }
 
   // TODO
   addType<T>(type?: ReceiveType<T>): this {
-    type = resolveReceiveType(type)
+    type = resolveReceiveType(type);
     return this;
   }
 

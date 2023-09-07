@@ -4,6 +4,7 @@ import { GraphQLError, GraphQLFieldResolver } from 'graphql';
 import {
   deserialize,
   metaAnnotation,
+  ReflectionKind,
   ReflectionMethod,
   ReflectionParameter,
   serialize,
@@ -12,7 +13,7 @@ import {
   ValidationError,
 } from '@deepkit/type';
 
-import { Instance, PARENT_META_NAME } from './types-builder';
+import { Instance, PARENT_META_NAME, parentAnnotation } from './types-builder';
 
 export class DeepkitGraphQLResolvers extends Set<{
   readonly module: InjectorModule;
@@ -54,7 +55,10 @@ export function getParentMetaAnnotationReflectionParameterIndex(
 export function filterReflectionParametersMetaAnnotationsForArguments(
   parameters: readonly ReflectionParameter[],
 ): readonly ReflectionParameter[] {
-  const argsParameters = [...parameters]
+  const argsParameters = [...parameters].filter(
+    // FIXME: Parent<T> annotation is somehow not available when using Webpack
+    parameter => parameter.type.kind !== ReflectionKind.unknown,
+  );
 
   const parentIndex =
     getParentMetaAnnotationReflectionParameterIndex(argsParameters);
@@ -79,6 +83,8 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
   return async (parent, args) => {
     const argsParameters =
       filterReflectionParametersMetaAnnotationsForArguments(parameters);
+
+    console.log(name, argsParameters);
 
     const argsValidationErrors = argsParameters.flatMap(parameter =>
       validate(args[parameter.name as keyof Args], parameter.type),

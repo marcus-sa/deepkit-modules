@@ -1,10 +1,23 @@
 import { graphql as executeGraphQL } from 'graphql';
-import { assert, cast, integer, MinLength, PositiveNoZero, UUID } from '@deepkit/type';
+import {
+  assert,
+  BackReference,
+  cast,
+  entity,
+  integer,
+  MinLength,
+  PositiveNoZero,
+  PrimaryKey,
+  Reference,
+  uuid,
+  UUID,
+} from '@deepkit/type';
 
 import { graphql } from './decorators';
 import { Parent, TypesBuilder } from './types-builder';
 import { buildSchema } from './schema-builder';
 import { Resolvers } from './resolvers';
+import { Post, User } from '../../../../apps/example-graphql/src/types';
 
 test('mutation', async () => {
   interface User {
@@ -96,20 +109,33 @@ test('mutation args validation', async () => {
 
 describe('resolveField', () => {
   test('parent', async () => {
-    interface Post {
-      readonly id: UUID;
+    @entity.name('post')
+    class Post {
+      readonly id: UUID & PrimaryKey = uuid();
+
+      readonly author?: User & Reference;
     }
 
-    interface User {
-      readonly id: UUID;
-      readonly posts?: readonly Post[];
+    @entity.name('user')
+    class User {
+      readonly id: UUID & PrimaryKey = uuid();
+      readonly posts?: readonly Post[] & BackReference;
+    }
+
+    @graphql.resolver<Post>()
+    class PostResolver {
+      @graphql.resolveField()
+      async author(post: Parent<Post>): Promise<User> {
+        console.log(post);
+        return cast<User>({});
+      }
     }
 
     @graphql.resolver<User>()
     class UserResolver {
       @graphql.resolveField()
-      posts(parent: Parent<User>): readonly Post[] | undefined {
-        assert<User>(parent);
+      posts(user: Parent<User>): readonly Post[] | undefined {
+        assert<User>(user);
         return [];
       }
 
@@ -119,11 +145,12 @@ describe('resolveField', () => {
       }
     }
 
-    const resolvers = new Resolvers([new UserResolver()]);
+    const resolvers = new Resolvers([new UserResolver(), new PostResolver()]);
 
     const schema = buildSchema({ resolvers });
 
-      await expect(executeGraphQL({
+    await expect(
+      executeGraphQL({
         schema,
         source: `
           {

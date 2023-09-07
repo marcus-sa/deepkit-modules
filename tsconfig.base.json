@@ -21,11 +21,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@deepkitx/apollo-graphql-driver": [
-        "packages/apollo-graphql-driver/src/index.ts"
-      ],
-      "@deepkitx/remix": ["packages/remix/src/index.ts"],
-      "@deepkitx/graphql": ["packages/graphql/src/index.ts"]
+      "@deepkitx/apollo-graphql": ["packages/apollo-graphql/src/index.ts"],
+      "@deepkitx/graphql": ["packages/graphql/src/index.ts"],
+      "@deepkitx/remix": ["packages/remix/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],

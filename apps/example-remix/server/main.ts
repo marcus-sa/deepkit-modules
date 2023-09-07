@@ -11,7 +11,11 @@ import { ExampleRemixConfig } from './config';
 
 declare const __non_webpack_require__: typeof require;
 
-const appDir = path.join(workspaceRoot, 'dist/apps', process.env.NX_TASK_TARGET_PROJECT!);
+const appDir = path.join(
+  workspaceRoot,
+  'dist/apps',
+  process.env.NX_TASK_TARGET_PROJECT!,
+);
 const publicDir = path.join(appDir, 'public');
 const buildDir = path.join(appDir, 'build');
 const isDev = process.env.NODE_ENV === 'development';
@@ -40,19 +44,13 @@ void new App({
     new RemixAppModule()
       .getServerBuild(() => (isDev ? getDevServerBuild() : prodServerBuild))
       .getLoadContext(
-        (
-          config: ExampleRemixConfig,
-          auth: AuthService,
-        ): AppLoadContext => ({
+        (config: ExampleRemixConfig, auth: AuthService): AppLoadContext => ({
           config,
           auth,
         }),
       ),
   ],
-  providers: [
-    AuthService,
-    AuthMiddleware,
-  ],
+  providers: [AuthService, AuthMiddleware],
   controllers: [],
 })
   .loadConfigFromEnv({

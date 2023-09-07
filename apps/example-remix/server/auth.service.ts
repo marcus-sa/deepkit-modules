@@ -3,9 +3,7 @@ import { HttpRequest } from '@deepkit/http';
 import { createRemixRequest } from '@deepkitx/remix';
 
 export class AuthService {
-  async getSessionFromDeepkit(
-    request: HttpRequest,
-  ): Promise<{} | null> {
+  async getSessionFromDeepkit(request: HttpRequest): Promise<{} | null> {
     // eslint-disable-next-line functional/immutable-data
     const remixRequest = (request.store.remixRequest ||=
       await createRemixRequest(request));
@@ -13,9 +11,7 @@ export class AuthService {
     return (request.store.session ||= await this.getSession(remixRequest));
   }
 
-  async getSession(
-    request: Request,
-  ): Promise<{} | null> {
-    return {}
+  async getSession(request: Request): Promise<{} | null> {
+    return {};
   }
 }

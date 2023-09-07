@@ -3,7 +3,8 @@ import { eventDispatcher } from '@deepkit/event';
 import {
   onServerBootstrap,
   onServerBootstrapDone,
-  onServerMainBootstrapDone, onServerMainShutdown,
+  onServerMainBootstrapDone,
+  onServerMainShutdown,
   onServerShutdown,
 } from '@deepkit/framework';
 import { Driver } from './driver';

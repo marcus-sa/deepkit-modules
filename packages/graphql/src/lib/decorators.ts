@@ -185,7 +185,6 @@ class GraphQLFieldDecorator {
     }
 
     this.t.checks.add(decorator => {
-      console.log(decorator, this.t);
       if (!decorator.t.type) {
         throw new Error(
           'Can only resolve fields for resolvers with a type @graphql.resolver<T>()',
