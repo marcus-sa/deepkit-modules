@@ -1,0 +1,48 @@
+{
+  "name": "nx-webpack-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-webpack-plugin/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-webpack-plugin",
+        "tsConfig": "packages/nx-webpack-plugin/tsconfig.lib.json",
+        "packageJson": "packages/nx-webpack-plugin/package.json",
+        "main": "packages/nx-webpack-plugin/src/index.ts",
+        "assets": ["packages/nx-webpack-plugin/*.md"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs nx-webpack-plugin {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/nx-webpack-plugin/**/*.ts",
+          "packages/nx-webpack-plugin/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/nx-webpack-plugin/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": ["nx-webpack-plugin"]
+}

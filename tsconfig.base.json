@@ -23,7 +23,8 @@
     "paths": {
       "@deepkitx/apollo-graphql": ["packages/apollo-graphql/src/index.ts"],
       "@deepkitx/graphql": ["packages/graphql/src/index.ts"],
-      "@deepkitx/remix": ["packages/remix/src/index.ts"]
+      "@deepkitx/nx-webpack-plugin": ["packages/nx-webpack-plugin/src/index.ts"],
+      "@deepkitx/remix": ["packages/remix/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"],

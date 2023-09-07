@@ -77,9 +77,9 @@
     "graphql-scalars": "^1.22.2",
     "tslib": "2.6.2"
   },
-  "packageManager": "pnpm@8.6.11",
+  "packageManager": "pnpm@8.7.4",
   "volta": {
-    "pnpm": "8.6.11",
+    "pnpm": "8.7.4",
     "node": "20.4.0"
   },
   "pnpm": {
