@@ -1,0 +1,53 @@
+{
+  "extends": [
+    "../../.eslintrc.json",
+    // Plugin "import" was conflicted between "apps/space/.eslintrc.json » @remix-run/eslint-config" and "apps/space/.eslintrc.json » ../../.eslintrc.json#overrides[1] » eslint-config-import".
+    // "@remix-run/eslint-config",
+    "@remix-run/eslint-config/node",
+    "@remix-run/eslint-config/jest-testing-library"
+  ],
+  "ignorePatterns": ["!**/*", "webpack.config.ts", "jest.config.ts"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["apps/example-remix/tsconfig.*?.json"],
+        "createDefaultProgram": true
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.tsx"],
+      "parserOptions": {
+        "project": ["apps/example-remix/tsconfig.*?.json"],
+        "createDefaultProgram": true
+      },
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": ["off"],
+        "@typescript-eslint/no-unsafe-call": ["off"],
+        "@typescript-eslint/no-unsafe-argument": ["off"],
+        "@typescript-eslint/no-unsafe-assignment": ["off"],
+        "@typescript-eslint/no-unsafe-member-access": ["off"],
+        "@typescript-eslint/no-unsafe-return": ["off"],
+        "@typescript-eslint/no-misused-promises": ["warn"],
+        "@typescript-eslint/promise-function-async": ["warn"]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parserOptions": {
+        "project": ["apps/example-remix/tsconfig.*?.json"],
+        "createDefaultProgram": true
+      },
+      "rules": {
+        "@typescript-eslint/restrict-template-expressions": ["warn"],
+        "@typescript-eslint/no-throw-literal": ["off"],
+        "etc/throw-error": ["off"]
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ]
+}

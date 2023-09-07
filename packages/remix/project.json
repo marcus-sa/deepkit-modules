@@ -1,39 +1,31 @@
 {
-  "name": "graphql",
+  "name": "remix",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/graphql/src",
+  "sourceRoot": "packages/remix/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/graphql",
-        "tsConfig": "packages/graphql/tsconfig.lib.json",
-        "packageJson": "packages/graphql/package.json",
-        "main": "packages/graphql/src/index.ts",
-        "assets": ["packages/graphql/*.md"]
+        "outputPath": "dist/packages/remix",
+        "main": "packages/remix/src/index.ts",
+        "tsConfig": "packages/remix/tsconfig.lib.json",
+        "assets": ["packages/remix/*.md"]
       }
-    },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs graphql {args.ver} {args.tag}",
-      "dependsOn": ["build"]
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "packages/graphql/**/*.ts",
-          "packages/graphql/package.json"
-        ]
+        "lintFilePatterns": ["packages/remix/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/graphql/jest.config.ts",
+        "jestConfig": "packages/remix/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -44,5 +36,5 @@
       }
     }
   },
-  "tags": ["graphql"]
+  "tags": ["remix"]
 }

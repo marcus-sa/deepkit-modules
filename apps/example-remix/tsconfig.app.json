@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
+    "allowJs": true,
+    "esModuleInterop": true
+  },
+  "include": ["remix.env.d.ts", "app/**/*.ts", "app/**/*.tsx"],
+  "exclude": [
+    "server/**/*.ts",
+    "webpack.config.ts",
+    "**/*.spec.ts",
+    "app/entry.worker.ts"
+  ]
+}

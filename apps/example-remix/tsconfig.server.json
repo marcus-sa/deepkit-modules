@@ -1,0 +1,6 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["remix.env.d.ts", "server/**/*.ts"],
+  "exclude": ["app/**/*.ts", "webpack.config.ts", "**/*.spec.ts"],
+  "reflection": true
+}

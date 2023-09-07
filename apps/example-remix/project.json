@@ -1,0 +1,145 @@
+{
+  "name": "example-remix",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/example-remix",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "inputs": [],
+      "options": {
+        "commands": [
+          "nx run example-remix:build-server",
+          "nx run example-remix:build-remix"
+        ],
+        "parallel": true
+      },
+      "outputs": ["{workspaceRoot}/dist/apps/example-remix"],
+      "configurations": {
+        "production": {
+          "commands": [
+            "NODE_ENV=production nx run example-remix:build-server:production",
+            "NODE_ENV=production nx run example-remix:build-remix"
+          ],
+          "parallel": true
+        }
+      }
+    },
+    "build-remix": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{workspaceRoot}/dist/apps/example-remix/build/index.js",
+        "{workspaceRoot}/dist/apps/example-remix/public/build",
+        "{workspaceRoot}/node_modules/.cache/remix/example-remix"
+      ],
+      "inputs": [
+        {
+          "env": "DEBUG"
+        }
+      ],
+      "options": {
+        "cwd": "apps/example-remix",
+        "command": "remix build"
+      }
+    },
+    "build-server": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}/main.js"],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/example-remix",
+        "main": "apps/example-remix/server/main.ts",
+        "isolatedConfig": true,
+        "webpackConfig": "apps/example-remix/webpack.config.ts",
+        "tsConfig": "apps/example-remix/tsconfig.server.json",
+        "assets": ["apps/example-remix/public"],
+        "sourceMap": false
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "generatePackageJson": false,
+          "watch": true
+        },
+        "production": {
+          "optimization": true,
+          "generatePackageJson": true
+        },
+        "preview": {
+          "optimization": true,
+          "generatePackageJson": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "sleep 5 && nx run example-remix:watch-remix",
+          "nx run example-remix:serve-server"
+        ],
+        "parallel": true
+      },
+      "outputs": ["{workspaceRoot}/dist/apps/example-remix"]
+    },
+    "serve-server": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "example-remix:build-server:development",
+        "inspect": false
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "example-remix:build-server:production"
+        }
+      }
+    },
+    "watch-remix": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/apps/example-remix"],
+      "options": {
+        "cwd": "apps/example-remix",
+        "command": "remix watch"
+      }
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/example-remix/**/*.ts",
+          "apps/example-remix/**/*.tsx"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "dependsOn": [
+        {
+          "projects": ["example-remix-db"],
+          "target": "build"
+        },
+        {
+          "projects": ["example-remix-shared"],
+          "target": "build"
+        }
+      ],
+      "options": {
+        "jestConfig": "apps/example-remix/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": ["example-remix"],
+  "implicitDependencies": ["remix"]
+}
