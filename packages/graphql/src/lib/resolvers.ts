@@ -38,7 +38,7 @@ export function getParentMetaAnnotationReflectionParameterIndex(
 ): number {
   return parameters.findIndex(({ parameter }) =>
     metaAnnotation.getForName(parameter.type, PARENT_META_NAME) ||
-    // FIXME: Parent<T> annotation is somehow not available when using Webpack
+    // FIXME: `Parent<T>` annotation is somehow not available in `example-graphql` app
     parameter.type.kind === ReflectionKind.unknown,
   );
 }

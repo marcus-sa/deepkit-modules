@@ -443,7 +443,7 @@ export class TypesBuilder {
           // eslint-disable-next-line functional/immutable-data
           config = Object.assign(
             config,
-            this.createFieldResolver(resolver, property.name),
+            this.generateFieldResolver(resolver, property.name),
           );
         }
 
@@ -572,7 +572,6 @@ export class TypesBuilder {
 
       const resolve = createResolveFunction<T>(instance, reflectionMethod);
 
-      // eslint-disable-next-line functional/immutable-data
       fields.set(query.name, {
         type: returnType,
         description: query.description,
@@ -585,7 +584,7 @@ export class TypesBuilder {
     return Object.fromEntries(fields.entries());
   }
 
-  createFieldResolver<T>(
+  generateFieldResolver<T>(
     instance: T,
     fieldName: string,
   ): Pick<GraphQLFieldConfig<unknown, unknown>, 'args' | 'resolve'> {
@@ -651,7 +650,6 @@ export class TypesBuilder {
 
       const resolve = createResolveFunction<T>(instance, reflectionMethod);
 
-      // eslint-disable-next-line functional/immutable-data
       fields.set(query.name, {
         type: returnType,
         description: query.description,

@@ -28,10 +28,6 @@ export class UserResolver {
 
   @graphql.mutation()
   async createUser(data: CreateUserArgs): Promise<User> {
-    const user = User.create(data);
-
-    await this.db.persist(user);
-
-    return user;
+    return await this.user.create(data);
   }
 }

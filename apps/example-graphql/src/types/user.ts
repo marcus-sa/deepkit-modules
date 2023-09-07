@@ -24,7 +24,7 @@ export class User {
     return new User(username);
   }
 
-  addPost(post: Post): void {
-    (this as Writable<this>).posts = [...this.posts, post];
+  addPost(this: Writable<this>, post: Post): void {
+    this.posts = [...this.posts, post];
   }
 }

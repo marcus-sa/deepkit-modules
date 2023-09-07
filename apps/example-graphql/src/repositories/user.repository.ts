@@ -13,4 +13,10 @@ export class UserRepository {
   async findOneByPost(post: Post): Promise<User> {
     return await this.findOne({ posts: [post] });
   }
+
+  async create(data: Pick<User, 'username'>): Promise<User> {
+    const user = User.create(data);
+    await this.db.persist(user);
+    return user;
+  }
 }

@@ -14,10 +14,9 @@ import {
 } from '@deepkit/type';
 
 import { graphql } from './decorators';
-import { Parent, TypesBuilder } from './types-builder';
+import { Parent } from './types-builder';
 import { buildSchema } from './schema-builder';
 import { Resolvers } from './resolvers';
-import { Post, User } from '../../../../apps/example-graphql/src/types';
 
 test('mutation', async () => {
   interface User {
