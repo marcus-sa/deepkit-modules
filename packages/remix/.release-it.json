@@ -54,7 +54,8 @@
     "requireCleanWorkingDir": false
   },
   "npm": {
-    "publishPath": "dist/packages/remix"
+    "publishPath": "dist/packages/remix",
+    "publish": true
   },
   "github": {
     "release": true,

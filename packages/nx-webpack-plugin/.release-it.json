@@ -54,7 +54,8 @@
     "requireCleanWorkingDir": false
   },
   "npm": {
-    "publishPath": "dist/packages/nx-webpack-plugin"
+    "publishPath": "dist/packages/nx-webpack-plugin",
+    "publish": true
   },
   "github": {
     "release": true,

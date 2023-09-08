@@ -54,7 +54,8 @@
     "requireCleanWorkingDir": false
   },
   "npm": {
-    "publishPath": "dist/packages/graphql"
+    "publishPath": "dist/packages/graphql",
+    "publish": true
   },
   "github": {
     "release": true,

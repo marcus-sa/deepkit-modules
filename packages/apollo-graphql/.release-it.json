@@ -54,7 +54,8 @@
     "requireCleanWorkingDir": false
   },
   "npm": {
-    "publishPath": "dist/packages/apollo-graphql"
+    "publishPath": "dist/packages/apollo-graphql",
+    "publish": true
   },
   "github": {
     "release": true,
