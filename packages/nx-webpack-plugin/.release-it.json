@@ -54,7 +54,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "Release: nx-webpack-plugin ${version}"
+    "releaseName": "nx-webpack-plugin ${version}"
   },
   "hooks": {
     "after:bump": "git checkout -- package.json"

@@ -54,7 +54,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "Release: graphql ${version}"
+    "releaseName": "graphql ${version}"
   },
   "hooks": {
     "after:bump": "git checkout -- package.json"
