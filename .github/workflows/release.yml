@@ -42,12 +42,8 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - run: npm login
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - run: pnpm nx affected -t release --parallel=2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           LEFTHOOK: 0
