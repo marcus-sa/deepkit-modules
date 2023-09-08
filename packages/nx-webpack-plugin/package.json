@@ -1,5 +1,5 @@
 {
-  "name": "remix/nx-webpack-plugin",
+  "name": "@deepkit-community-test/nx-webpack-plugin",
   "version": "0.7.1",
   "type": "commonjs",
   "main": "./src/index.js",
