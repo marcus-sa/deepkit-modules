@@ -1,5 +1,5 @@
 {
-  "name": "@deepkitx/graphql",
+  "name": "@deepkit-community-test/graphql",
   "version": "0.1.0",
   "type": "commonjs",
   "main": "./src/index.js",

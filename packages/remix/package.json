@@ -1,5 +1,5 @@
 {
-  "name": "@deepkitx/remix",
+  "name": "@deepkit-community-test/remix",
   "version": "0.1.0",
   "type": "commonjs",
   "main": "./src/index.js",

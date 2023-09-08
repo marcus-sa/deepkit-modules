@@ -1,5 +1,5 @@
 {
-  "name": "@deepkitx/apollo-graphql",
+  "name": "@deepkit-community-test/apollo-graphql",
   "version": "0.1.0",
   "dependencies": {
     "tslib": "2.6.2",
