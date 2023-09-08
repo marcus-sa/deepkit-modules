@@ -12,7 +12,7 @@ env:
   NX_PERF_LOGGING: ${{ secrets.NX_PERF_LOGGING }}
 
 permissions:
-  contents: read
+  contents: write
   actions: read
   pull-requests: read
   id-token: write
@@ -46,3 +46,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          LEFTHOOK: 0
