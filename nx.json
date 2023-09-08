@@ -15,7 +15,12 @@
         "production",
         "^production",
         "{projectRoot}/.release-it.json",
-        "{projectRoot}/version.json"
+        {
+          "env": "GITHUB_TOKEN"
+        },
+        {
+          "env": "NPM_TOKEN"
+        }
       ]
     },
     "build": {
