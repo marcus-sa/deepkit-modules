@@ -47,8 +47,8 @@ runs:
         echo "GITHUB_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
         echo "NX_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
 
-    #    - name: Derive appropriate SHAs for base and head for `nx affected` commands
-    #      uses: nrwl/nx-set-shas@v3
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands
+      uses: nrwl/nx-set-shas@v3
 
     - name: Cache Nx
       uses: actions/cache@v2
