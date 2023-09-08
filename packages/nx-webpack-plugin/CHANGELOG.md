@@ -1,5 +1,7 @@
 
 
+## [0.7.1](https://github.com/marcus-sa/deepkit-community/compare/nx-webpack-plugin-v0.7.0...nx-webpack-plugin-v0.7.1) (2023-09-08)
+
 ## 0.7.0 (2023-09-08)
 
 

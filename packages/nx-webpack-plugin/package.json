@@ -1,6 +1,6 @@
 {
   "name": "remix/nx-webpack-plugin",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
