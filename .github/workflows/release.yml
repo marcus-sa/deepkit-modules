@@ -46,6 +46,8 @@ jobs:
         run: cat .github/.npmrc >> $HOME/.npmrc
 
       - run: npm whoami
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - run: pnpm nx affected -t release --parallel=2
         env:
