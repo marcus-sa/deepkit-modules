@@ -1,0 +1,60 @@
+{
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": {
+        "name": "conventionalcommits",
+        "types": [
+          {
+            "type": "feat",
+            "section": "Features"
+          },
+          {
+            "type": "fix",
+            "section": "Bug Fixes"
+          },
+          {
+            "type": "refactor",
+            "section": "Refactor"
+          },
+          {
+            "type": "docs",
+            "section": "Documentations"
+          }
+        ]
+      },
+      "infile": "packages/remix/CHANGELOG.md",
+      "parserOpts": {
+        "headerPattern": "^(\\w*)(?:\\((remix*)\\))?\\: (.*)$"
+      }
+    },
+    "@release-it/bumper": {
+      "in": {
+        "file": "packages/remix/package.json",
+        "path": "version"
+      },
+      "out": [
+        {
+          "file": "packages/remix/package.json",
+          "path": "version"
+        },
+        {
+          "file": "dist/packages/remix/package.json",
+          "path": "version"
+        }
+      ]
+    }
+  },
+  "git": {
+    "commitMessage": "chore(remix): release ${version}",
+    "tagName": "remix-v${version}",
+    "requireCleanWorkingDir": false
+  },
+  "npm": {
+    "publishPath": "dist/packages/remix"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "Release: remix ${version}"
+  },
+  "ci": true
+}

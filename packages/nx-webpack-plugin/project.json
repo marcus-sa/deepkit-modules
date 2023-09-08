@@ -15,9 +15,8 @@
         "assets": ["packages/nx-webpack-plugin/*.md"]
       }
     },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs nx-webpack-plugin {args.ver} {args.tag}",
-      "dependsOn": ["build"]
+    "release": {
+      "command": "release-it --config={projectRoot}/.release-it.json"
     },
     "lint": {
       "executor": "@nx/linter:eslint",

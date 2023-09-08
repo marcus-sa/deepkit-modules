@@ -1,0 +1,60 @@
+{
+  "plugins": {
+    "@release-it/conventional-changelog": {
+      "preset": {
+        "name": "conventionalcommits",
+        "types": [
+          {
+            "type": "feat",
+            "section": "Features"
+          },
+          {
+            "type": "fix",
+            "section": "Bug Fixes"
+          },
+          {
+            "type": "refactor",
+            "section": "Refactor"
+          },
+          {
+            "type": "docs",
+            "section": "Documentations"
+          }
+        ]
+      },
+      "infile": "packages/nx-webpack-plugin/CHANGELOG.md",
+      "parserOpts": {
+        "headerPattern": "^(\\w*)(?:\\((nx-webpack-plugin*)\\))?\\: (.*)$"
+      }
+    },
+    "@release-it/bumper": {
+      "in": {
+        "file": "packages/nx-webpack-plugin/package.json",
+        "path": "version"
+      },
+      "out": [
+        {
+          "file": "packages/nx-webpack-plugin/package.json",
+          "path": "version"
+        },
+        {
+          "file": "dist/packages/nx-webpack-plugin/package.json",
+          "path": "version"
+        }
+      ]
+    }
+  },
+  "git": {
+    "commitMessage": "chore(nx-webpack-plugin): release ${version}",
+    "tagName": "nx-webpack-plugin-v${version}",
+    "requireCleanWorkingDir": false
+  },
+  "npm": {
+    "publishPath": "dist/packages/nx-webpack-plugin"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "Release: nx-webpack-plugin ${version}"
+  },
+  "ci": true
+}

@@ -14,6 +14,9 @@
         "assets": ["packages/remix/*.md"]
       }
     },
+    "release": {
+      "command": "release-it --config={projectRoot}/.release-it.json"
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
