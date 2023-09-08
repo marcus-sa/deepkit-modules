@@ -118,16 +118,6 @@
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "dependsOn": [
-        {
-          "projects": ["example-remix-db"],
-          "target": "build"
-        },
-        {
-          "projects": ["example-remix-shared"],
-          "target": "build"
-        }
-      ],
       "options": {
         "jestConfig": "apps/example-remix/jest.config.ts",
         "passWithNoTests": true
