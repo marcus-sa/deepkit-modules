@@ -56,5 +56,8 @@
     "release": true,
     "releaseName": "Release: apollo-graphql ${version}"
   },
+  "hooks": {
+    "after:bump": "git checkout -- package.json"
+  },
   "ci": true
 }

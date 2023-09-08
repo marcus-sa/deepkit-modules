@@ -56,5 +56,8 @@
     "release": true,
     "releaseName": "Release: remix ${version}"
   },
+  "hooks": {
+    "after:bump": "git checkout -- package.json"
+  },
   "ci": true
 }
