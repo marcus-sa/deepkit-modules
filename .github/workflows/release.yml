@@ -33,12 +33,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup
+        id: setup
+        uses: ./.github/actions/setup
+
       - name: git config
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
 
-      - run: pnpm nx affected:release
+      - run: pnpm nx affected -t release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
