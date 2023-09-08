@@ -20,6 +20,7 @@
     "@nx/webpack": "16.7.4",
     "@nx/workspace": "16.7.4",
     "@release-it/bumper": "^5.1.0",
+    "@release-it/conventional-changelog": "^7.0.1",
     "@remix-run/dev": "^1.19.3",
     "@remix-run/react": "^1.19.3",
     "@types/jest": "^29.4.0",

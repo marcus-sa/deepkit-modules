@@ -28,10 +28,19 @@
       }
     },
     "@release-it/bumper": {
-      "in": "packages/apollo-graphql/version.json",
+      "in": {
+        "file": "packages/apollo-graphql/package.json",
+        "path": "version"
+      },
       "out": [
-        "packages/apollo-graphql/version.json",
-        "dist/packages/apollo-graphql/package.json"
+        {
+          "file": "packages/apollo-graphql/package.json",
+          "path": "version"
+        },
+        {
+          "file": "dist/packages/apollo-graphql/package.json",
+          "path": "version"
+        }
       ]
     }
   },
@@ -41,14 +50,11 @@
     "requireCleanWorkingDir": false
   },
   "npm": {
-    "publish": true
+    "publishPath": "dist/packages/apollo-graphql"
   },
   "github": {
     "release": true,
     "releaseName": "Release: apollo-graphql ${version}"
   },
-  "hooks": {
-    "before:bump": "pnpm nx build apollo-graphql",
-    "after:bump": ["git checkout -- package.json"]
-  }
+  "ci": true
 }

@@ -16,7 +16,7 @@
       }
     },
     "release": {
-      "command": "release-it --ci --no-git.requireCleanWorkingDir --config={projectRoot}/package.json"
+      "command": "release-it --config={projectRoot}/.release-it.json"
     },
     "lint": {
       "executor": "@nx/linter:eslint",
