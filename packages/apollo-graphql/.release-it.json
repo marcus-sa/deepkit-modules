@@ -19,6 +19,10 @@
           {
             "type": "docs",
             "section": "Documentations"
+          },
+          {
+            "type": "revert",
+            "section": "Revert"
           }
         ]
       },
