@@ -33,9 +33,6 @@ jobs:
         id: setup
         uses: ./.github/actions/setup
 
-      - name: Copy shared package to analytics, web & app
-        run: pnpm copy-all
-
       - name: Run affected builds
         run: pnpm nx affected:build
 
