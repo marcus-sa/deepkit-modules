@@ -2,7 +2,7 @@ const {
   utils: { getProjects },
 } = require('@commitlint/config-nx-scopes');
 
-const customScopes = ['deps', 'nx', 'snyk', 'renovate'];
+const customScopes = ['deps', 'nx', 'snyk', 'dependabot'];
 
 module.exports = {
   extends: ['@commitlint/config-conventional', '@commitlint/config-nx-scopes'],
