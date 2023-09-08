@@ -4,31 +4,26 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
   },
   "targetDefaults": {
-    "build": {
-      "dependsOn": [
-        "^build"
-      ],
+    "release": {
+      "dependsOn": ["^build", "build"],
       "inputs": [
         "production",
-        "^production"
+        "^production",
+        "{projectRoot}/.release-it.json",
+        "{projectRoot}/version.json"
       ]
     },
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
     "test": {
-      "inputs": [
-        "default",
-        "^production",
-        "{workspaceRoot}/jest.preset.js"
-      ]
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
     },
     "lint": {
       "inputs": [
@@ -39,10 +34,7 @@
     }
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
@@ -50,7 +42,9 @@
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/test-setup.[jt]s",
-      "!{projectRoot}/.eslintrc.json"
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/.release-it.json",
+      "!{projectRoot}/version.json"
     ],
     "sharedGlobals": []
   },

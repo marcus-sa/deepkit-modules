@@ -9,15 +9,14 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/apollo-graphql",
-        "tsConfig": "packages/apollo-graphql/tsconfig.lib.json",
-        "packageJson": "packages/apollo-graphql/package.json",
-        "main": "packages/apollo-graphql/src/index.ts",
-        "assets": ["packages/apollo-graphql/*.md"]
+        "tsConfig": "{projectRoot}/tsconfig.lib.json",
+        "packageJson": "{projectRoot}/package.json",
+        "main": "{projectRoot}/src/index.ts",
+        "assets": ["{projectRoot}/*.md"]
       }
     },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs apollo-graphql-driver {args.ver} {args.tag}",
-      "dependsOn": ["build"]
+    "release": {
+      "command": "release-it --ci --config={projectRoot}/package.json"
     },
     "lint": {
       "executor": "@nx/linter:eslint",
