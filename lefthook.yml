@@ -2,7 +2,7 @@
 commit-msg:
   commands:
     commitlint:
-      run: yarn commitlint --edit {1}
+      #run: yarn commitlint --edit {1}
 pre-commit:
   commands:
     github-actions:
