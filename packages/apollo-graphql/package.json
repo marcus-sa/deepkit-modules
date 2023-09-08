@@ -6,7 +6,7 @@
     "@apollo/server": "4.9.3"
   },
   "peerDependencies": {
-    "@deepkitx/graphql": "*",
+    "@deepkit-community-test/graphql": "*",
     "@deepkit/app": "*",
     "@deepkit/http": "*",
     "@deepkit/framework": "*",
