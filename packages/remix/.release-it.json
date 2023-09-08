@@ -55,14 +55,15 @@
   },
   "npm": {
     "publishPath": "dist/packages/remix",
-    "publish": true
+    "publish": false
   },
   "github": {
     "release": true,
     "releaseName": "remix ${version}"
   },
   "hooks": {
-    "after:bump": "git checkout -- package.json"
+    "after:bump": "git checkout -- package.json",
+    "before:github:release": "npm publish dist/packages/remix"
   },
   "ci": true
 }

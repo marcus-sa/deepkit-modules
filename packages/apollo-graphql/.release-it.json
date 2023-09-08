@@ -55,14 +55,15 @@
   },
   "npm": {
     "publishPath": "dist/packages/apollo-graphql",
-    "publish": true
+    "publish": false
   },
   "github": {
     "release": true,
     "releaseName": "apollo-graphql ${version}"
   },
   "hooks": {
-    "after:bump": "git checkout -- package.json"
+    "after:bump": "git checkout -- package.json",
+    "before:github:release": "npm publish dist/packages/remix"
   },
   "ci": true
 }
