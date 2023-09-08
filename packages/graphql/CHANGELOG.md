@@ -1,5 +1,7 @@
 
 
+## [0.3.1](https://github.com/marcus-sa/deepkit-community/compare/graphql-v0.3.0...graphql-v0.3.1) (2023-09-08)
+
 ## 0.3.0 (2023-09-08)
 
 
