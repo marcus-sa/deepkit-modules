@@ -1,6 +1,6 @@
 import { App } from '@deepkit/app';
 import { FrameworkModule } from '@deepkit/framework';
-import { ApolloGraphQLModule } from '@deepkit-community-test/apollo-graphql';
+import { ApolloGraphQLModule } from '@deepkit-modules/apollo-graphql';
 
 import { PostResolver, UserResolver } from './resolvers';
 import { Config } from './config';

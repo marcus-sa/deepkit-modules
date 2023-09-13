@@ -10,7 +10,7 @@ import {
   WebWorker,
 } from '@deepkit/framework';
 import { HttpBadRequestError, httpWorkflow } from '@deepkit/http';
-import { Driver } from '@deepkit-community-test/graphql';
+import { Driver } from '@deepkit-modules/graphql';
 
 import { ApolloGraphQLConfig } from './apollo-graphql-config';
 import { ApolloServerPlugins } from './plugins';

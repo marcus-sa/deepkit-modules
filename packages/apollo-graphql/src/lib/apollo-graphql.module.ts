@@ -1,5 +1,5 @@
 import { createModule } from '@deepkit/app';
-import { GraphQLModule } from '@deepkit-community-test/graphql';
+import { GraphQLModule } from '@deepkit-modules/graphql';
 import { ApolloServerPlugin } from '@apollo/server/dist/esm/externalTypes/plugins';
 
 import { ApolloDriver } from './apollo-graphql-driver';

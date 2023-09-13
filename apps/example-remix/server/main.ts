@@ -3,7 +3,7 @@ import { App } from '@deepkit/app';
 import { workspaceRoot } from '@nx/devkit';
 import { FrameworkModule } from '@deepkit/framework';
 import { AppLoadContext, ServerBuild } from '@remix-run/server-runtime';
-import { RemixAppModule } from '@deepkit-community-test/remix';
+import { RemixAppModule } from '@deepkit-modules/remix';
 
 import { AuthMiddleware } from './auth.middleware';
 import { AuthService } from './auth.service';
@@ -24,7 +24,7 @@ const prodServerBuild = !isDev ? __non_webpack_require__(buildDir) : null;
 
 function getDevServerBuild(): ServerBuild {
   for (const key in __non_webpack_require__.cache) {
-    if (key.includes('@deepkit-community-test/') || key.includes(buildDir)) {
+    if (key.includes('@deepkit-modules/') || key.includes(buildDir)) {
       // eslint-disable-next-line functional/immutable-data,@typescript-eslint/no-dynamic-delete
       delete __non_webpack_require__.cache[key];
     }

@@ -1,6 +1,6 @@
 {
-  "name": "@deepkit-community-test/apollo-graphql",
-  "version": "0.4.0",
+  "name": "@deepkit-modules/apollo-graphql",
+  "version": "0.0.0",
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
@@ -13,7 +13,7 @@
     "@apollo/server": "4.9.3"
   },
   "peerDependencies": {
-    "@deepkit-community-test/graphql": "*",
+    "@deepkit-modules/graphql": "*",
     "@deepkit/app": "*",
     "@deepkit/http": "*",
     "@deepkit/framework": "*",

@@ -1,4 +1,4 @@
-import { graphql, Parent } from '@deepkit-community-test/graphql';
+import { graphql, Parent } from '@deepkit-modules/graphql';
 
 import { User } from '../types';
 import { Database } from '../db';
