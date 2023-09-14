@@ -14,7 +14,7 @@
     "importHelpers": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "target": "esnext",
+    "target": "es2022",
     "module": "esnext",
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
@@ -28,7 +28,8 @@
       "@deepkit-modules/nx-webpack-plugin": [
         "packages/nx-webpack-plugin/src/index.ts"
       ],
-      "@deepkit-modules/remix": ["packages/remix/src/index.ts"]
+      "@deepkit-modules/remix": ["packages/remix/src/index.ts"],
+      "@deepkit-modules/remix-validated-form": ["packages/remix-validated-form/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"],
