@@ -1,5 +1,12 @@
 
 
+## [0.2.0](https://github.com/marcus-sa/deepkit-modules/compare/nx-webpack-plugin-v0.1.0...nx-webpack-plugin-v0.2.0) (2023-09-20)
+
+
+### Features
+
+* add remix-validated-form package ([c944526](https://github.com/marcus-sa/deepkit-modules/commit/c94452626dc1c12f38db8f50fb018140735db346))
+
 ## 0.1.0 (2023-09-13)
 
 
