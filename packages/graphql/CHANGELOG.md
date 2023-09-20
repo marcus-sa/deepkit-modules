@@ -1,5 +1,24 @@
 
 
+## [0.2.0](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.1.0...graphql-v0.2.0) (2023-09-20)
+
+
+### Features
+
+* add remix-validated-form package ([c944526](https://github.com/marcus-sa/deepkit-modules/commit/c94452626dc1c12f38db8f50fb018140735db346))
+* **graphql:** add checks to ensure that mutation & query decorated resolver methods have valid return types ([6c90e79](https://github.com/marcus-sa/deepkit-modules/commit/6c90e79a449b169a30387dca7e3329c1e7ddb299))
+* **graphql:** add context support and better args validation error messages ([1a9288c](https://github.com/marcus-sa/deepkit-modules/commit/1a9288cbb5ae4a078a86f915db8f5600cb08f1f7))
+
+
+### Bug Fixes
+
+* **graphql:** allow unions in isValidMethodReturnType ([99f475f](https://github.com/marcus-sa/deepkit-modules/commit/99f475ff62653e5f26e171bfe356b6ed6c6b7c86))
+
+
+### Refactor
+
+* **graphql:** add isValidMethodReturnType fn ([31bb7dd](https://github.com/marcus-sa/deepkit-modules/commit/31bb7dd25ef00aaaca20a7c284868c1a6c254144))
+
 ## 0.1.0 (2023-09-13)
 
 
