@@ -43,6 +43,32 @@ export class SchemaBuilder {
     );
   }
 
+  generateMutationResolverFields(): GraphQLFieldConfigMap<unknown, unknown> {
+    return [...this.options.resolvers.instances].reduce<GraphQLFieldConfigMap<unknown, unknown>>(
+      (fields, instance) => ({
+        // TODO: validate that fields don't override each other
+        ...fields,
+        ...this.typesBuilder.generateMutationResolverFields(
+          this.options.resolvers.get(instance),
+        ),
+      }),
+      {},
+    )
+  }
+
+  generateQueryResolverFields(): GraphQLFieldConfigMap<unknown, unknown> {
+    return [...this.options.resolvers.instances].reduce<GraphQLFieldConfigMap<unknown, unknown>>(
+      (fields, instance) => ({
+        // TODO: validate that fields don't override each other
+        ...fields,
+        ...this.typesBuilder.generateQueryResolverFields(
+          this.options.resolvers.get(instance),
+        ),
+      }),
+      {},
+    )
+  }
+
   private buildRootMutationType(): GraphQLObjectType | undefined {
     const classTypes = [...this.options.resolvers.classTypes];
 
@@ -53,17 +79,7 @@ export class SchemaBuilder {
 
     return new GraphQLObjectType({
       name: 'Mutation',
-      fields: () =>
-        classTypes.reduce<GraphQLFieldConfigMap<unknown, unknown>>(
-          (fields, classType) => ({
-            // TODO: validate that fields don't override each other
-            ...fields,
-            ...this.typesBuilder.generateMutationResolverFields(
-              this.options.resolvers.get(classType),
-            ),
-          }),
-          {},
-        ),
+      fields: () => this.generateMutationResolverFields(),
     });
   }
 
@@ -116,17 +132,7 @@ export class SchemaBuilder {
 
     return new GraphQLObjectType({
       name: 'Query',
-      fields: () =>
-        classTypes.reduce<GraphQLFieldConfigMap<unknown, unknown>>(
-          (fields, classType) => ({
-            // TODO: validate that fields don't override each other
-            ...fields,
-            ...this.typesBuilder.generateQueryResolverFields(
-              this.options.resolvers.get(classType),
-            ),
-          }),
-          {},
-        ),
+      fields: () => this.generateQueryResolverFields(),
     });
   }
 

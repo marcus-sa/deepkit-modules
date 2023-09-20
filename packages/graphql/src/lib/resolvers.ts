@@ -25,6 +25,8 @@ export class DeepkitGraphQLResolvers extends Set<{
 export class Resolvers extends WeakMap<ClassType, Instance> {
   readonly classTypes = new Set<ClassType>();
 
+  readonly instances = new Set<Instance>();
+
   constructor(instances: readonly Instance[]) {
     const entries = instances.map<readonly [ClassType, Instance]>(instance => [
       instance.constructor,
@@ -32,6 +34,7 @@ export class Resolvers extends WeakMap<ClassType, Instance> {
     ]);
     super(entries);
     entries.forEach(([classType]) => this.classTypes.add(classType));
+    instances.forEach(instance => this.instances.add(instance));
   }
 }
 
