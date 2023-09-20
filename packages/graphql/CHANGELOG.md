@@ -1,5 +1,12 @@
 
 
+## [0.2.2](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.2.1...graphql-v0.2.2) (2023-09-20)
+
+
+### Bug Fixes
+
+* **graphql:** export Resolvers ([301823c](https://github.com/marcus-sa/deepkit-modules/commit/301823cea620070cc48830451e9b5de4bd954e86))
+
 ## [0.2.1](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.2.0...graphql-v0.2.1) (2023-09-20)
 
 
