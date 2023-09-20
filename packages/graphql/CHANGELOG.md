@@ -1,5 +1,18 @@
 
 
+## [0.3.0](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.2.2...graphql-v0.3.0) (2023-09-20)
+
+
+### Features
+
+* **graphql:** generate mutation and queries resolver fields in schema builder ([3445201](https://github.com/marcus-sa/deepkit-modules/commit/3445201436db97ecd48adcf853138a0540509dea))
+
+
+### Bug Fixes
+
+* **graphql:** generate mutation & resolver fields methods for schema builder ([70f61f6](https://github.com/marcus-sa/deepkit-modules/commit/70f61f6350f96af429fe426f6593883cdae528e7))
+* **graphql:** remove valid method return type checks ([c804a05](https://github.com/marcus-sa/deepkit-modules/commit/c804a057824c7a26c83d2e4c3d88f8e69180290c))
+
 ## [0.2.2](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.2.1...graphql-v0.2.2) (2023-09-20)
 
 
