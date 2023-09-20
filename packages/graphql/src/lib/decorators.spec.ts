@@ -34,7 +34,7 @@ test('invalid return type for query', () => {
   expect(() => {
     @graphql.resolver()
     class TestResolver {
-      @graphql.mutation()
+      @graphql.query()
       query(): string {
         return '';
       }
