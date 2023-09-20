@@ -1,5 +1,12 @@
 
 
+## [0.2.1](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.2.0...graphql-v0.2.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* **graphql:** export Context type ([6a7fa4c](https://github.com/marcus-sa/deepkit-modules/commit/6a7fa4c42e57ff9237aa349d03bec5bd076a8b68))
+
 ## [0.2.0](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.1.0...graphql-v0.2.0) (2023-09-20)
 
 
