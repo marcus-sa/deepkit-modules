@@ -10,10 +10,6 @@ exports[`Context 1`] = `
 }
 `;
 
-exports[`invalid return type for mutation 1`] = `"Only classes and interfaces are supported as return types for methods decorated by @graphql.mutation()"`;
-
-exports[`invalid return type for query 1`] = `"Only classes and interfaces are supported as return types for methods decorated by @graphql.query()"`;
-
 exports[`mutation 1`] = `
 {
   "data": {
