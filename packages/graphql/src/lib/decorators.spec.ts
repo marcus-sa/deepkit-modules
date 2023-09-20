@@ -18,7 +18,7 @@ import { Context, Parent } from './types-builder';
 import { buildSchema } from './schema-builder';
 import { Resolvers } from './resolvers';
 
-test('invalid return type for mutation', () => {
+/*test('invalid return type for mutation', () => {
   expect(() => {
     @graphql.resolver()
     class TestResolver {
@@ -28,9 +28,9 @@ test('invalid return type for mutation', () => {
       }
     }
   }).toThrowErrorMatchingSnapshot();
-});
+});*/
 
-test('invalid return type for query', () => {
+/*test('invalid return type for query', () => {
   expect(() => {
     @graphql.resolver()
     class TestResolver {
@@ -40,7 +40,7 @@ test('invalid return type for query', () => {
       }
     }
   }).toThrowErrorMatchingSnapshot();
-});
+});*/
 
 test('mutation', async () => {
   interface User {

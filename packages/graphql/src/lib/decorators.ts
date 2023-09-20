@@ -25,7 +25,7 @@ import { requireTypeName, unwrapPromiseLikeType } from './types-builder';
 
 export const typeResolvers = new Map<string, ClassType>();
 
-export function isValidMethodReturnType(
+/*export function isValidMethodReturnType(
   classType: ClassType,
   methodName: string,
 ): boolean {
@@ -45,7 +45,7 @@ export function isValidMethodReturnType(
           type.kind === ReflectionKind.null ||
           type.kind === ReflectionKind.undefined,
       );
-}
+}*/
 
 class GraphQLResolver {
   type?: TypeClass | TypeObjectLiteral;
@@ -144,13 +144,13 @@ class GraphQLQueryDecorator {
     this.t.description = options?.description;
     this.t.deprecationReason = options?.deprecationReason;
 
-    this.t.checks.add(() => {
+    /*this.t.checks.add(() => {
       if (!isValidMethodReturnType(this.t.classType, this.t.name)) {
         throw new Error(
           'Only classes and interfaces are supported as return types for methods decorated by @graphql.query()',
         );
       }
-    });
+    });*/
   }
 }
 
@@ -190,13 +190,13 @@ class GraphQLMutationDecorator {
     this.t.description = options?.description;
     this.t.deprecationReason = options?.deprecationReason;
 
-    this.t.checks.add(() => {
+    /*this.t.checks.add(() => {
       if (!isValidMethodReturnType(this.t.classType, this.t.name)) {
         throw new Error(
           'Only classes and interfaces are supported as return types for methods decorated by @graphql.mutation()',
         );
       }
-    });
+    });*/
   }
 }
 
