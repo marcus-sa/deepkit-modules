@@ -3,6 +3,7 @@ export {
   TypesBuilder,
   TypeNameRequiredError,
   Parent,
+  Context,
   ID,
 } from './lib/types-builder';
 export { SchemaBuilder } from './lib/schema-builder';
