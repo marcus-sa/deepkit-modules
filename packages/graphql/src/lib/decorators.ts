@@ -24,6 +24,16 @@ import { requireTypeName, unwrapPromiseLikeType } from './types-builder';
 
 export const typeResolvers = new Map<string, ClassType>();
 
+export function isValidMethodReturnType(classType: ClassType, methodName: string): boolean {
+  const resolverType = resolveRuntimeType(classType);
+  const reflectionClass = ReflectionClass.from(resolverType);
+  const method = reflectionClass.getMethod(methodName);
+  let returnType = method.getReturnType();
+  returnType = unwrapPromiseLikeType(returnType);
+
+  return returnType.kind === ReflectionKind.objectLiteral || returnType.kind === ReflectionKind.class;
+}
+
 class GraphQLResolver {
   type?: TypeClass | TypeObjectLiteral;
 
@@ -122,13 +132,7 @@ class GraphQLQueryDecorator {
     this.t.deprecationReason = options?.deprecationReason;
 
     this.t.checks.add(() => {
-      const resolverType = resolveRuntimeType(this.t.classType);
-      const reflectionClass = ReflectionClass.from(resolverType);
-      const method = reflectionClass.getMethod(this.t.name);
-      let returnType = method.getReturnType();
-      returnType = unwrapPromiseLikeType(returnType);
-
-      if (returnType.kind !== ReflectionKind.objectLiteral && returnType.kind !== ReflectionKind.class) {
+      if (!isValidMethodReturnType(this.t.classType, this.t.name)) {
         throw new Error(
           'Only classes and interfaces are supported as return types for methods decorated by @graphql.query()',
         );
@@ -174,13 +178,7 @@ class GraphQLMutationDecorator {
     this.t.deprecationReason = options?.deprecationReason;
 
     this.t.checks.add(() => {
-      const resolverType = resolveRuntimeType(this.t.classType);
-      const reflectionClass = ReflectionClass.from(resolverType);
-      const method = reflectionClass.getMethod(this.t.name);
-      let returnType = method.getReturnType();
-      returnType = unwrapPromiseLikeType(returnType);
-
-      if (returnType.kind !== ReflectionKind.objectLiteral && returnType.kind !== ReflectionKind.class) {
+      if (!isValidMethodReturnType(this.t.classType, this.t.name)) {
         throw new Error(
           'Only classes and interfaces are supported as return types for methods decorated by @graphql.mutation()',
         );
