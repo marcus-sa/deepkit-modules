@@ -3,7 +3,11 @@ import type { ServerBuild } from '@remix-run/server-runtime';
 import type { AppLoadContext } from '@remix-run/node';
 
 import { RemixAppController } from './remix-app.controller';
-import { RemixAppConfig } from './remix-app-config';
+import {
+  APP_LOAD_CONTEXT,
+  GET_SERVER_BUILD,
+  RemixAppConfig,
+} from './remix-app-config';
 
 export class RemixAppModule extends createModule({
   config: RemixAppConfig,
@@ -13,7 +17,7 @@ export class RemixAppModule extends createModule({
 }) {
   getServerBuild(load: () => ServerBuild): this {
     this.addProvider({
-      provide: 'getServerBuild',
+      provide: GET_SERVER_BUILD,
       useValue: load,
     });
     return this;
@@ -24,7 +28,8 @@ export class RemixAppModule extends createModule({
     load: (...args: T) => C,
   ): this {
     this.addProvider({
-      provide: 'loadContext',
+      provide: APP_LOAD_CONTEXT,
+      scope: 'http',
       useFactory: load,
     });
     return this;
