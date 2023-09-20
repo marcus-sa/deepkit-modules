@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Context 1`] = `
+{
+  "data": {
+    "info": {
+      "version": "1.0.0",
+    },
+  },
+}
+`;
+
 exports[`mutation 1`] = `
 {
   "data": {

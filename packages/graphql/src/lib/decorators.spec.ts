@@ -14,7 +14,7 @@ import {
 } from '@deepkit/type';
 
 import { graphql } from './decorators';
-import { Parent } from './types-builder';
+import { Context, Parent } from './types-builder';
 import { buildSchema } from './schema-builder';
 import { Resolvers } from './resolvers';
 
@@ -105,6 +105,47 @@ test('mutation args validation', async () => {
     }),
   ).resolves.toMatchSnapshot(); // Can't use .toMatchInlineSnapshot() because of decorators
 });
+
+test('Context', async () => {
+  interface TestCtx {
+    readonly version: string;
+  }
+
+  const testCtx: TestCtx = {
+    version: '1.0.0'
+  };
+
+  interface Info {
+    readonly version: string;
+  }
+
+  @graphql.resolver()
+  class TestResolver {
+    @graphql.query()
+    info(ctx: Context<TestCtx>): Info {
+      expect(ctx).toBe(testCtx);
+      return { version: ctx.version };
+    }
+  }
+
+  const resolvers = new Resolvers([new TestResolver()]);
+
+  const schema = buildSchema({ resolvers });
+
+  await expect(
+    executeGraphQL({
+      contextValue: testCtx,
+      source: `
+        {
+          info {
+            version
+          }
+        }
+      `,
+      schema,
+    }),
+  ).resolves.toMatchSnapshot(); // Can't use .toMatchInlineSnapshot() because of decorators
+})
 
 describe('resolveField', () => {
   test('parent', async () => {
