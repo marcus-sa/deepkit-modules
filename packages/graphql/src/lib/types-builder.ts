@@ -97,6 +97,11 @@ export const PARENT_META_NAME = 'parent';
 // eslint-disable-next-line functional/prefer-readonly-type
 export type Parent<T> = T & { __meta?: [typeof PARENT_META_NAME, T] };
 
+export const CONTEXT_META_NAME = 'context';
+
+// eslint-disable-next-line functional/prefer-readonly-type
+export type Context<T> = T & { __meta?: [typeof CONTEXT_META_NAME, T] };
+
 export class TypesBuilder {
   private readonly outputObjectTypes = new Map<string, GraphQLObjectType>();
 

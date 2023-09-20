@@ -9,11 +9,13 @@ import {
   ReflectionParameter,
   serialize,
   serializer,
+  TypeObjectLiteral,
+  TypePropertySignature,
   validate,
   ValidationError,
 } from '@deepkit/type';
 
-import { Instance, PARENT_META_NAME } from './types-builder';
+import { CONTEXT_META_NAME, Instance, PARENT_META_NAME } from './types-builder';
 
 export class DeepkitGraphQLResolvers extends Set<{
   readonly module: InjectorModule;
@@ -43,6 +45,16 @@ export function getParentMetaAnnotationReflectionParameterIndex(
   );
 }
 
+export function getContextMetaAnnotationReflectionParameterIndex(
+  parameters: readonly ReflectionParameter[],
+): number {
+  return parameters.findIndex(({ parameter }) =>
+    metaAnnotation.getForName(parameter.type, CONTEXT_META_NAME) ||
+    // FIXME: `Context<T>` annotation is somehow not available in `example-graphql` app
+    parameter.type.kind === ReflectionKind.unknown,
+  );
+}
+
 export function filterReflectionParametersMetaAnnotationsForArguments(
   parameters: readonly ReflectionParameter[],
 ): readonly ReflectionParameter[] {
@@ -54,6 +66,14 @@ export function filterReflectionParametersMetaAnnotationsForArguments(
   if (parentIndex !== -1) {
     // eslint-disable-next-line functional/immutable-data
     argsParameters.splice(parentIndex, 1);
+  }
+
+  const contextIndex =
+    getContextMetaAnnotationReflectionParameterIndex(argsParameters);
+
+  if (contextIndex !== -1) {
+    // eslint-disable-next-line functional/immutable-data
+    argsParameters.splice(contextIndex, 1);
   }
 
   return argsParameters;
@@ -69,13 +89,29 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
     ...args: Args
   ) => unknown;
 
-  return async (parent, args) => {
-    const argsParameters =
-      filterReflectionParametersMetaAnnotationsForArguments(parameters);
+  const argsParameters =
+    filterReflectionParametersMetaAnnotationsForArguments(parameters);
 
-    const argsValidationErrors = argsParameters.flatMap(parameter =>
-      validate(args[parameter.name as keyof Args], parameter.type),
-    );
+  const argsType: TypeObjectLiteral = {
+    kind: ReflectionKind.objectLiteral,
+    types: [],
+  };
+
+  argsType.types = argsParameters.map<TypePropertySignature>(parameter => ({
+    kind: ReflectionKind.propertySignature,
+    parent: argsType,
+    name: parameter.name,
+    type: parameter.type,
+  }));
+
+  const parentParameterIndex =
+    getParentMetaAnnotationReflectionParameterIndex(parameters);
+
+  const contextParameterIndex =
+    getContextMetaAnnotationReflectionParameterIndex(parameters);
+
+  return async (parent, args, context) => {
+    const argsValidationErrors = validate(args, argsType)
     if (argsValidationErrors.length) {
       const originalError = new ValidationError(argsValidationErrors);
       throw new GraphQLError(originalError.message, {
@@ -94,15 +130,20 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
       ),
     ) as Parameters<typeof resolve>;
 
-    const parentParameterIndex =
-      getParentMetaAnnotationReflectionParameterIndex(parameters);
     if (parentParameterIndex !== -1) {
       // eslint-disable-next-line functional/immutable-data
       resolveArgs.splice(parentParameterIndex, 0, parent);
     }
 
+    if (contextParameterIndex !== -1) {
+      // eslint-disable-next-line functional/immutable-data
+      resolveArgs.splice(contextParameterIndex, 0, context);
+    }
+
+    const result = await resolve(...resolveArgs);
+
     return serialize(
-      await resolve(...resolveArgs),
+      result,
       undefined,
       serializer,
       undefined,
