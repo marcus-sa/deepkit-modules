@@ -15,6 +15,7 @@ import {
   ReflectionKind,
   resolveReceiveType,
   resolveRuntimeType,
+  Type,
   TypeClass,
   TypeObjectLiteral,
   UnionToIntersection,
@@ -31,7 +32,9 @@ export function isValidMethodReturnType(classType: ClassType, methodName: string
   let returnType = method.getReturnType();
   returnType = unwrapPromiseLikeType(returnType);
 
-  return returnType.kind === ReflectionKind.objectLiteral || returnType.kind === ReflectionKind.class;
+  return returnType.kind !== ReflectionKind.union
+    ? returnType.kind === ReflectionKind.objectLiteral || returnType.kind === ReflectionKind.class
+    : returnType.types.some(type => type.kind === ReflectionKind.objectLiteral || type.kind === ReflectionKind.class || type.kind === ReflectionKind.null || type.kind === ReflectionKind.undefined);
 }
 
 class GraphQLResolver {
