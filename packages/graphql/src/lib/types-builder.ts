@@ -64,8 +64,8 @@ export type Instance<T = any> = T & { readonly constructor: Function };
 
 export type ID = string | number;
 
-export function unwrapPromiseType(type: TypePromise): Type {
-  return type.type;
+export function unwrapPromiseLikeType(type: Type): Type {
+  return type.kind === ReflectionKind.promise ? type.type : type;
 }
 
 export function getTypeName(
@@ -458,8 +458,7 @@ export class TypesBuilder {
   }
 
   createReturnType(type: Type): GraphQLOutputType {
-    type =
-      type.kind === ReflectionKind.promise ? unwrapPromiseType(type) : type;
+    type = unwrapPromiseLikeType(type);
 
     const isNull =
       type.kind === ReflectionKind.union &&

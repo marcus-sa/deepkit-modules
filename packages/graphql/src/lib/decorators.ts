@@ -1,26 +1,26 @@
 /* eslint-disable functional/immutable-data,functional/prefer-readonly-type,@typescript-eslint/typedef */
 import { ClassType } from '@deepkit/core';
 import {
+  ClassDecoratorFn,
   createClassDecoratorContext,
   createPropertyDecoratorContext,
+  DecoratorAndFetchSignature,
+  DualDecorator,
+  ExtractApiDataType,
+  ExtractClass,
   mergeDecorator,
   PropertyDecoratorResult,
   ReceiveType,
+  ReflectionClass,
   ReflectionKind,
   resolveReceiveType,
-  TypeClass,
-  ExtractClass,
-  TypeObjectLiteral,
-  ExtractApiDataType,
-  UnionToIntersection,
-  DualDecorator,
-  ClassDecoratorFn,
-  DecoratorAndFetchSignature,
   resolveRuntimeType,
-  ReflectionClass,
+  TypeClass,
+  TypeObjectLiteral,
+  UnionToIntersection,
 } from '@deepkit/type';
 
-import { requireTypeName } from './types-builder';
+import { requireTypeName, unwrapPromiseLikeType } from './types-builder';
 
 export const typeResolvers = new Map<string, ClassType>();
 
@@ -99,6 +99,7 @@ export class GraphQLQueryMetadata implements GraphQLQueryOptions {
   classType: ClassType;
   description?: string;
   deprecationReason?: string;
+  readonly checks = new Set<(decorator: GraphQLResolverDecorator) => void>();
 }
 
 class GraphQLQueryDecorator {
@@ -109,12 +110,30 @@ class GraphQLQueryDecorator {
     this.t.name = property;
     this.t.classType = classType;
     gqlResolverDecorator.addQuery(property, this.t)(classType);
+
+    this.t.checks.forEach(check =>
+      gqlResolverDecorator.addCheck(check)(classType),
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   query(options?: GraphQLQueryOptions) {
     this.t.description = options?.description;
     this.t.deprecationReason = options?.deprecationReason;
+
+    this.t.checks.add(() => {
+      const resolverType = resolveRuntimeType(this.t.classType);
+      const reflectionClass = ReflectionClass.from(resolverType);
+      const method = reflectionClass.getMethod(this.t.name);
+      let returnType = method.getReturnType();
+      returnType = unwrapPromiseLikeType(returnType);
+
+      if (returnType.kind !== ReflectionKind.objectLiteral && returnType.kind !== ReflectionKind.class) {
+        throw new Error(
+          'Only classes and interfaces are supported as return types for methods decorated by @graphql.query()',
+        );
+      }
+    });
   }
 }
 
@@ -132,6 +151,7 @@ export class GraphQLMutationMetadata implements GraphQLMutationOptions {
   classType: ClassType;
   description?: string;
   deprecationReason?: string;
+  readonly checks = new Set<(decorator: GraphQLResolverDecorator) => void>();
 }
 
 class GraphQLMutationDecorator {
@@ -142,12 +162,30 @@ class GraphQLMutationDecorator {
     this.t.name = property;
     this.t.classType = classType;
     gqlResolverDecorator.addMutation(property, this.t)(classType);
+
+    this.t.checks.forEach(check =>
+      gqlResolverDecorator.addCheck(check)(classType),
+    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   mutation(options?: GraphQLMutationOptions) {
     this.t.description = options?.description;
     this.t.deprecationReason = options?.deprecationReason;
+
+    this.t.checks.add(() => {
+      const resolverType = resolveRuntimeType(this.t.classType);
+      const reflectionClass = ReflectionClass.from(resolverType);
+      const method = reflectionClass.getMethod(this.t.name);
+      let returnType = method.getReturnType();
+      returnType = unwrapPromiseLikeType(returnType);
+
+      if (returnType.kind !== ReflectionKind.objectLiteral && returnType.kind !== ReflectionKind.class) {
+        throw new Error(
+          'Only classes and interfaces are supported as return types for methods decorated by @graphql.mutation()',
+        );
+      }
+    });
   }
 }
 
@@ -184,8 +222,8 @@ class GraphQLFieldDecorator {
       this.t.name = name;
     }
 
-    this.t.checks.add(decorator => {
-      if (!decorator.t.type) {
+    this.t.checks.add(resolverDecorator => {
+      if (!resolverDecorator.t.type) {
         throw new Error(
           'Can only resolve fields for resolvers with a type @graphql.resolver<T>()',
         );
@@ -195,7 +233,7 @@ class GraphQLFieldDecorator {
       const reflectionClass = ReflectionClass.from(resolverType);
 
       if (!reflectionClass.hasMethod(this.t.name)) {
-        const typeName = requireTypeName(decorator.t.type);
+        const typeName = requireTypeName(resolverDecorator.t.type);
         throw new Error(
           `No field ${this.t.name} found on type ${typeName} for field resolver method ${this.t.property} on resolver ${this.t.classType.name}`,
         );

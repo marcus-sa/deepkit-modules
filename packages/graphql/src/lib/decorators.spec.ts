@@ -18,6 +18,30 @@ import { Context, Parent } from './types-builder';
 import { buildSchema } from './schema-builder';
 import { Resolvers } from './resolvers';
 
+test('invalid return type for mutation', () => {
+  expect(() => {
+    @graphql.resolver()
+    class TestResolver {
+      @graphql.mutation()
+      mutation(): string {
+        return '';
+      }
+    }
+  }).toThrowErrorMatchingSnapshot();
+})
+
+test('invalid return type for query', () => {
+  expect(() => {
+    @graphql.resolver()
+    class TestResolver {
+      @graphql.mutation()
+      query(): string {
+        return '';
+      }
+    }
+  }).toThrowErrorMatchingSnapshot();
+})
+
 test('mutation', async () => {
   interface User {
     readonly id: integer & PositiveNoZero;
