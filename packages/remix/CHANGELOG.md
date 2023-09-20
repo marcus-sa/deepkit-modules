@@ -1,5 +1,17 @@
 
 
+## [0.2.0](https://github.com/marcus-sa/deepkit-modules/compare/remix-v0.1.0...remix-v0.2.0) (2023-09-20)
+
+
+### Features
+
+* add remix-validated-form package ([c944526](https://github.com/marcus-sa/deepkit-modules/commit/c94452626dc1c12f38db8f50fb018140735db346))
+
+
+### Bug Fixes
+
+* **remix:** use web apis instead of remix apis ([4da2ebd](https://github.com/marcus-sa/deepkit-modules/commit/4da2ebd5c0b6dcca6cb1defa31d45e203a243474))
+
 ## 0.1.0 (2023-09-13)
 
 
