@@ -49,7 +49,7 @@ export class SchemaBuilder {
         // TODO: validate that fields don't override each other
         ...fields,
         ...this.typesBuilder.generateMutationResolverFields(
-          this.options.resolvers.get(instance),
+          instance,
         ),
       }),
       {},
@@ -62,7 +62,7 @@ export class SchemaBuilder {
         // TODO: validate that fields don't override each other
         ...fields,
         ...this.typesBuilder.generateQueryResolverFields(
-          this.options.resolvers.get(instance),
+          instance,
         ),
       }),
       {},
