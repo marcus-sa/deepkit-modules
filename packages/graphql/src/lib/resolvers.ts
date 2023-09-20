@@ -38,20 +38,22 @@ export class Resolvers extends WeakMap<ClassType, Instance> {
 export function getParentMetaAnnotationReflectionParameterIndex(
   parameters: readonly ReflectionParameter[],
 ): number {
-  return parameters.findIndex(({ parameter }) =>
-    metaAnnotation.getForName(parameter.type, PARENT_META_NAME) ||
-    // FIXME: `Parent<T>` annotation is somehow not available in `example-graphql` app
-    parameter.type.kind === ReflectionKind.unknown,
+  return parameters.findIndex(
+    ({ parameter }) =>
+      metaAnnotation.getForName(parameter.type, PARENT_META_NAME) ||
+      // FIXME: `Parent<T>` annotation is somehow not available in `example-graphql` app
+      parameter.type.kind === ReflectionKind.unknown,
   );
 }
 
 export function getContextMetaAnnotationReflectionParameterIndex(
   parameters: readonly ReflectionParameter[],
 ): number {
-  return parameters.findIndex(({ parameter }) =>
-    metaAnnotation.getForName(parameter.type, CONTEXT_META_NAME) ||
-    // FIXME: `Context<T>` annotation is somehow not available in `example-graphql` app
-    parameter.type.kind === ReflectionKind.unknown,
+  return parameters.findIndex(
+    ({ parameter }) =>
+      metaAnnotation.getForName(parameter.type, CONTEXT_META_NAME) ||
+      // FIXME: `Context<T>` annotation is somehow not available in `example-graphql` app
+      parameter.type.kind === ReflectionKind.unknown,
   );
 }
 
@@ -111,7 +113,7 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
     getContextMetaAnnotationReflectionParameterIndex(parameters);
 
   return async (parent, args, context) => {
-    const argsValidationErrors = validate(args, argsType)
+    const argsValidationErrors = validate(args, argsType);
     if (argsValidationErrors.length) {
       const originalError = new ValidationError(argsValidationErrors);
       throw new GraphQLError(originalError.message, {
@@ -142,12 +144,6 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
 
     const result = await resolve(...resolveArgs);
 
-    return serialize(
-      result,
-      undefined,
-      serializer,
-      undefined,
-      type.return,
-    );
+    return serialize(result, undefined, serializer, undefined, type.return);
   };
 }

@@ -28,7 +28,7 @@ test('invalid return type for mutation', () => {
       }
     }
   }).toThrowErrorMatchingSnapshot();
-})
+});
 
 test('invalid return type for query', () => {
   expect(() => {
@@ -40,7 +40,7 @@ test('invalid return type for query', () => {
       }
     }
   }).toThrowErrorMatchingSnapshot();
-})
+});
 
 test('mutation', async () => {
   interface User {
@@ -136,7 +136,7 @@ test('Context', async () => {
   }
 
   const testCtx: TestCtx = {
-    version: '1.0.0'
+    version: '1.0.0',
   };
 
   interface Info {
@@ -169,7 +169,7 @@ test('Context', async () => {
       schema,
     }),
   ).resolves.toMatchSnapshot(); // Can't use .toMatchInlineSnapshot() because of decorators
-})
+});
 
 describe('resolveField', () => {
   test('parent', async () => {

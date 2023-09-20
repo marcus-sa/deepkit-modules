@@ -25,7 +25,10 @@ import { requireTypeName, unwrapPromiseLikeType } from './types-builder';
 
 export const typeResolvers = new Map<string, ClassType>();
 
-export function isValidMethodReturnType(classType: ClassType, methodName: string): boolean {
+export function isValidMethodReturnType(
+  classType: ClassType,
+  methodName: string,
+): boolean {
   const resolverType = resolveRuntimeType(classType);
   const reflectionClass = ReflectionClass.from(resolverType);
   const method = reflectionClass.getMethod(methodName);
@@ -33,8 +36,15 @@ export function isValidMethodReturnType(classType: ClassType, methodName: string
   returnType = unwrapPromiseLikeType(returnType);
 
   return returnType.kind !== ReflectionKind.union
-    ? returnType.kind === ReflectionKind.objectLiteral || returnType.kind === ReflectionKind.class
-    : returnType.types.some(type => type.kind === ReflectionKind.objectLiteral || type.kind === ReflectionKind.class || type.kind === ReflectionKind.null || type.kind === ReflectionKind.undefined);
+    ? returnType.kind === ReflectionKind.objectLiteral ||
+        returnType.kind === ReflectionKind.class
+    : returnType.types.some(
+        type =>
+          type.kind === ReflectionKind.objectLiteral ||
+          type.kind === ReflectionKind.class ||
+          type.kind === ReflectionKind.null ||
+          type.kind === ReflectionKind.undefined,
+      );
 }
 
 class GraphQLResolver {
