@@ -118,6 +118,10 @@ export class TypesBuilder {
       case ReflectionKind.class:
         return this.getScalarTypeForClass(type);
 
+      case ReflectionKind.undefined:
+      case ReflectionKind.void:
+        return GraphQLVoid;
+
       case ReflectionKind.bigint:
         return GraphQLBigInt;
 
@@ -177,9 +181,6 @@ export class TypesBuilder {
       case ReflectionKind.string:
         if (type.typeName === 'UUID') return GraphQLUUID;
         return GraphQLString;
-
-      case ReflectionKind.void:
-        return GraphQLVoid;
 
       default:
         console.log(type);
