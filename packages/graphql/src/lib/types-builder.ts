@@ -179,7 +179,6 @@ export class TypesBuilder {
         return GraphQLString;
 
       case ReflectionKind.void:
-      case ReflectionKind.undefined:
         return GraphQLVoid;
 
       default:
