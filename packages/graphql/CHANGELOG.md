@@ -1,5 +1,13 @@
 
 
+## [0.3.1](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.3.0...graphql-v0.3.1) (2023-09-22)
+
+
+### Bug Fixes
+
+* **graphql:** kind 2 is not supported for return types ([4867912](https://github.com/marcus-sa/deepkit-modules/commit/486791205f63ef0d2887773f70b34c4c116d7956))
+* **graphql:** re-export everything ([b9d19d1](https://github.com/marcus-sa/deepkit-modules/commit/b9d19d15a40d5cf2e6b5062ad9f736b51683036d))
+
 ## [0.3.0](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.2.2...graphql-v0.3.0) (2023-09-20)
 
 
