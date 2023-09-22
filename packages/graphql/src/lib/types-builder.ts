@@ -464,7 +464,8 @@ export class TypesBuilder {
       type.types.some(
         type =>
           type.kind === ReflectionKind.null ||
-          type.kind === ReflectionKind.undefined,
+          type.kind === ReflectionKind.undefined ||
+          type.kind === ReflectionKind.void,
       );
 
     const outputType = this.createOutputType(type);
