@@ -1,5 +1,7 @@
 
 
+## [0.4.2](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.1...graphql-v0.4.2) (2023-09-22)
+
 ## [0.4.1](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.0...graphql-v0.4.1) (2023-09-22)
 
 
