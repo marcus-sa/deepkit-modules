@@ -27,6 +27,7 @@ import {
   GraphQLPositiveInt,
   GraphQLTimestamp,
   GraphQLUUID,
+  GraphQLVoid,
 } from 'graphql-scalars';
 import {
   GraphQLList,
@@ -92,6 +93,20 @@ describe('TypesBuilder', () => {
     }
   `);
   });
+
+  test('void', () => {
+    const voidType = builder.createOutputType<void>() as typeof GraphQLVoid;
+
+    expect(voidType).toBe(GraphQLVoid);
+    expect(voidType.name).toEqual('Void');
+  });
+
+  test('undefined', () => {
+    const voidType = builder.createOutputType<undefined>() as typeof GraphQLVoid;
+
+    expect(voidType).toBe(GraphQLVoid);
+    expect(voidType.name).toEqual('Void');
+  })
 
   test('interface array', () => {
     interface User {

@@ -48,10 +48,15 @@ import {
   GraphQLPositiveInt,
   GraphQLTimestamp,
   GraphQLUUID,
+  GraphQLVoid,
 } from 'graphql-scalars';
 
 import { gqlResolverDecorator, typeResolvers } from './decorators';
-import { createResolveFunction, filterReflectionParametersMetaAnnotationsForArguments, Resolvers } from './resolvers';
+import {
+  createResolveFunction,
+  filterReflectionParametersMetaAnnotationsForArguments,
+  Resolvers,
+} from './resolvers';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Instance<T = any> = T & { readonly constructor: Function };
@@ -453,10 +458,6 @@ export class TypesBuilder {
 
   createReturnType(type: Type): GraphQLOutputType {
     type = unwrapPromiseLikeType(type);
-
-    if (type.kind === ReflectionKind.unknown && type.parent) {
-      type = type.parent;
-    }
 
     const isNullable =
       type.kind === ReflectionKind.union &&
