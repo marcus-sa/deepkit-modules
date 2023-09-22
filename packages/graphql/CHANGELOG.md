@@ -1,5 +1,14 @@
 
 
+## [0.4.1](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.0...graphql-v0.4.1) (2023-09-22)
+
+
+### Bug Fixes
+
+* **graphql:** void return type ([ba7190e](https://github.com/marcus-sa/deepkit-modules/commit/ba7190e40b216efa96a2de71b56207f183d334a4))
+* **graphql:** void return type ([1b2d4bb](https://github.com/marcus-sa/deepkit-modules/commit/1b2d4bbbe1cda5c4fde7c3ccc7520e8464bae669))
+* **graphql:** void return type ([afedb51](https://github.com/marcus-sa/deepkit-modules/commit/afedb51c1cf2de3033fc85759725e2e8019eae72))
+
 ## [0.4.0](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.3.1...graphql-v0.4.0) (2023-09-22)
 
 
