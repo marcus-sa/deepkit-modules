@@ -1,5 +1,12 @@
 
 
+## [0.4.5](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.4...graphql-v0.4.5) (2023-09-22)
+
+
+### Bug Fixes
+
+* **graphql:** throw error when type name is unknown ([da0b5cd](https://github.com/marcus-sa/deepkit-modules/commit/da0b5cdbb2356fb786d3d2b228c39c79e41da410))
+
 ## [0.4.4](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.3...graphql-v0.4.4) (2023-09-22)
 
 
