@@ -94,9 +94,10 @@ export function requireTypeName(type: TypeObjectLiteral | TypeClass): string {
   if (!name) {
     throw new TypeNameRequiredError(type);
   }
-  return name.startsWith('UnknownTypeName:()=>')
-    ? stringifyShortResolvedType(type)
-    : name;
+  if (name.startsWith('UnknownTypeName:()=>')) {
+    throw new UnknownTypeNameError(type);
+  }
+  return name;
 }
 
 export type GraphQLFields<T> = Record<string, { readonly type: T }>;
