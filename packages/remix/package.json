@@ -1,6 +1,6 @@
 {
   "name": "@deepkit-modules/remix",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
