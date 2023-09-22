@@ -1,6 +1,6 @@
 {
   "name": "@deepkit-modules/graphql",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
