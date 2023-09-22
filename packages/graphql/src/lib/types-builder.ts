@@ -459,7 +459,7 @@ export class TypesBuilder {
   createReturnType(type: Type): GraphQLOutputType {
     type = unwrapPromiseLikeType(type);
 
-    const isNullable =
+    const isNull =
       type.kind === ReflectionKind.union &&
       type.types.some(
         type =>
@@ -469,7 +469,7 @@ export class TypesBuilder {
 
     const outputType = this.createOutputType(type);
 
-    return isNullable ? outputType : new GraphQLNonNull(outputType);
+    return isNull ? outputType : new GraphQLNonNull(outputType);
   }
 
   createInputArgsFromReflectionParameters(
