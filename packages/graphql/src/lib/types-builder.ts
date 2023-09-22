@@ -1,5 +1,6 @@
 import { ClassType } from '@deepkit/core';
 import {
+  memberNameToString,
   ReceiveType,
   ReflectionClass,
   ReflectionKind,
@@ -13,6 +14,7 @@ import {
   TypeNumberBrand,
   TypeObjectLiteral,
   TypeUnion,
+  stringifyShortResolvedType,
 } from '@deepkit/type';
 import {
   GraphQLBoolean,
@@ -81,12 +83,20 @@ export class TypeNameRequiredError extends Error {
   }
 }
 
+export class UnknownTypeNameError extends Error {
+  constructor(readonly type: Type) {
+    super('Unknown type name');
+  }
+}
+
 export function requireTypeName(type: TypeObjectLiteral | TypeClass): string {
   const name = getTypeName(type);
   if (!name) {
     throw new TypeNameRequiredError(type);
   }
-  return name;
+  return name.startsWith('UnknownTypeName:()=>')
+    ? stringifyShortResolvedType(type)
+    : name;
 }
 
 export type GraphQLFields<T> = Record<string, { readonly type: T }>;
