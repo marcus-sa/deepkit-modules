@@ -52,11 +52,7 @@ import {
 } from 'graphql-scalars';
 
 import { gqlResolverDecorator, typeResolvers } from './decorators';
-import {
-  createResolveFunction,
-  filterReflectionParametersMetaAnnotationsForArguments,
-  Resolvers,
-} from './resolvers';
+import { createResolveFunction, filterReflectionParametersMetaAnnotationsForArguments, Resolvers } from './resolvers';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Instance<T = any> = T & { readonly constructor: Function };
@@ -181,6 +177,10 @@ export class TypesBuilder {
       case ReflectionKind.string:
         if (type.typeName === 'UUID') return GraphQLUUID;
         return GraphQLString;
+
+      case ReflectionKind.void:
+      case ReflectionKind.undefined:
+        return GraphQLVoid;
 
       default:
         console.log(type);
@@ -459,7 +459,7 @@ export class TypesBuilder {
   createReturnType(type: Type): GraphQLOutputType {
     type = unwrapPromiseLikeType(type);
 
-    const isNull =
+    const isNullable =
       type.kind === ReflectionKind.union &&
       type.types.some(
         type =>
@@ -469,7 +469,7 @@ export class TypesBuilder {
 
     const outputType = this.createOutputType(type);
 
-    return isNull ? outputType : new GraphQLNonNull(outputType);
+    return isNullable ? outputType : new GraphQLNonNull(outputType);
   }
 
   createInputArgsFromReflectionParameters(
