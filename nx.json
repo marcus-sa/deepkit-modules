@@ -14,13 +14,7 @@
       "inputs": [
         "production",
         "^production",
-        "{projectRoot}/.release-it.json",
-        {
-          "env": "GITHUB_TOKEN"
-        },
-        {
-          "env": "NPM_TOKEN"
-        }
+        "{projectRoot}/.release-it.json"
       ]
     },
     "build": {
