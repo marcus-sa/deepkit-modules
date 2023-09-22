@@ -16,7 +16,7 @@ import {
   NegativeNoZero,
   Positive,
   PositiveNoZero,
-  ReflectionClass,
+  ReflectionClass, ReflectionMethod,
   typeOf,
   UUID,
 } from '@deepkit/type';
@@ -115,13 +115,10 @@ describe('TypesBuilder', () => {
     expect(voidType.name).toEqual('Void');
   });
 
-  test('create return type for void method', () => {
-    class Test {
-      method(): void {}
-    }
+  test('void return type', () => {
+    function test(): void {}
 
-    const reflectionClass = ReflectionClass.from<Test>();
-    const reflectionMethod = reflectionClass.getMethod('method')!;
+    const reflectionMethod = ReflectionMethod.from(test);
     const returnType = reflectionMethod.getReturnType();
 
     const type = builder.createReturnType(returnType);
