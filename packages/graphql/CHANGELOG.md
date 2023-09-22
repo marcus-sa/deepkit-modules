@@ -1,5 +1,18 @@
 
 
+## [0.4.0](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.3.1...graphql-v0.4.0) (2023-09-22)
+
+
+### Features
+
+* **graphql:** support void and undefined ([f96aa62](https://github.com/marcus-sa/deepkit-modules/commit/f96aa622ad303f4f06db06f2ce9bf61290d6a727))
+* **graphql:** support void and undefined ([54b0380](https://github.com/marcus-sa/deepkit-modules/commit/54b0380a8747f995c154f8fbc5b24ac82bbfe041))
+
+
+### Revert
+
+* **graphql:** 486791205f63ef0d2887773f70b34c4c116d7956 ([c82922e](https://github.com/marcus-sa/deepkit-modules/commit/c82922e6dcf16c977edf53a4e84425ff16e71d6c))
+
 ## [0.3.1](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.3.0...graphql-v0.3.1) (2023-09-22)
 
 
