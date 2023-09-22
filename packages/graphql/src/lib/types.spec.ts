@@ -1,4 +1,9 @@
-import { GraphQLEnumType, GraphQLID, GraphQLUnionType } from 'graphql';
+import {
+  GraphQLEnumType,
+  GraphQLID,
+  GraphQLNonNull,
+  GraphQLUnionType,
+} from 'graphql';
 import {
   float,
   float32,
@@ -11,6 +16,7 @@ import {
   NegativeNoZero,
   Positive,
   PositiveNoZero,
+  ReflectionClass,
   typeOf,
   UUID,
 } from '@deepkit/type';
@@ -102,11 +108,25 @@ describe('TypesBuilder', () => {
   });
 
   test('undefined', () => {
-    const voidType = builder.createOutputType<undefined>() as typeof GraphQLVoid;
+    const voidType =
+      builder.createOutputType<undefined>() as typeof GraphQLVoid;
 
     expect(voidType).toBe(GraphQLVoid);
     expect(voidType.name).toEqual('Void');
-  })
+  });
+
+  test('create return type for void method', () => {
+    class Test {
+      method(): void {}
+    }
+
+    const reflectionClass = ReflectionClass.from<Test>();
+    const reflectionMethod = reflectionClass.getMethod('method')!;
+    const returnType = reflectionMethod.getReturnType();
+
+    const type = builder.createReturnType(returnType);
+    expect(type).toBe(GraphQLVoid);
+  });
 
   test('interface array', () => {
     interface User {

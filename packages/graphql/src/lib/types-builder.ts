@@ -52,7 +52,11 @@ import {
 } from 'graphql-scalars';
 
 import { gqlResolverDecorator, typeResolvers } from './decorators';
-import { createResolveFunction, filterReflectionParametersMetaAnnotationsForArguments, Resolvers } from './resolvers';
+import {
+  createResolveFunction,
+  filterReflectionParametersMetaAnnotationsForArguments,
+  Resolvers,
+} from './resolvers';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Instance<T = any> = T & { readonly constructor: Function };
@@ -460,13 +464,13 @@ export class TypesBuilder {
     type = unwrapPromiseLikeType(type);
 
     const isNullable =
-      type.kind === ReflectionKind.union &&
-      type.types.some(
-        type =>
-          type.kind === ReflectionKind.null ||
-          type.kind === ReflectionKind.undefined ||
-          type.kind === ReflectionKind.void,
-      );
+      type.kind === ReflectionKind.void ||
+      (type.kind === ReflectionKind.union &&
+        type.types.some(
+          type =>
+            type.kind === ReflectionKind.null ||
+            type.kind === ReflectionKind.undefined,
+        ));
 
     const outputType = this.createOutputType(type);
 
