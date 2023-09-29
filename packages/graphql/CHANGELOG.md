@@ -1,5 +1,12 @@
 
 
+## [0.4.6](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.5...graphql-v0.4.6) (2023-09-29)
+
+
+### Bug Fixes
+
+* **graphql:** use DateTime scalar for Date type ([011bc64](https://github.com/marcus-sa/deepkit-modules/commit/011bc64d41739aba091f996713547437e5c8d278))
+
 ## [0.4.5](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.4...graphql-v0.4.5) (2023-09-22)
 
 
