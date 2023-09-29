@@ -48,7 +48,7 @@ import {
   GraphQLNonPositiveInt,
   GraphQLPositiveFloat,
   GraphQLPositiveInt,
-  GraphQLTimestamp,
+  GraphQLDateTime,
   GraphQLUUID,
   GraphQLVoid,
 } from 'graphql-scalars';
@@ -277,7 +277,7 @@ export class TypesBuilder {
   getScalarTypeForClass(type: TypeClass): GraphQLScalarType {
     switch (type.classType.name) {
       case Date.name:
-        return GraphQLTimestamp;
+        return GraphQLDateTime;
 
       case ArrayBuffer.name:
       case Uint8Array.name:

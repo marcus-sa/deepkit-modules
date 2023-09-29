@@ -31,7 +31,7 @@ import {
   GraphQLNonPositiveInt,
   GraphQLPositiveFloat,
   GraphQLPositiveInt,
-  GraphQLTimestamp,
+  GraphQLDateTime,
   GraphQLUUID,
   GraphQLVoid,
 } from 'graphql-scalars';
@@ -245,7 +245,7 @@ describe('TypesBuilder', () => {
 
   test('Date', () => {
     const type = builder.createOutputType<Date>();
-    expect(type).toBe(GraphQLTimestamp);
+    expect(type).toBe(GraphQLDateTime);
   });
 
   test('Uint8Array', () => {
