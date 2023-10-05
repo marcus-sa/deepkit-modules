@@ -43,9 +43,9 @@ export function getParentMetaAnnotationReflectionParameterIndex(
 ): number {
   return parameters.findIndex(
     ({ parameter }) =>
-      metaAnnotation.getForName(parameter.type, PARENT_META_NAME) ||
+      metaAnnotation.getForName(parameter.type, PARENT_META_NAME)/* ||
       // FIXME: `Parent<T>` annotation is somehow not available in `example-graphql` app
-      parameter.type.kind === ReflectionKind.unknown,
+      parameter.type.kind === ReflectionKind.unknown*/,
   );
 }
 
@@ -54,9 +54,9 @@ export function getContextMetaAnnotationReflectionParameterIndex(
 ): number {
   return parameters.findIndex(
     ({ parameter }) =>
-      metaAnnotation.getForName(parameter.type, CONTEXT_META_NAME) ||
+      metaAnnotation.getForName(parameter.type, CONTEXT_META_NAME)/* ||
       // FIXME: `Context<T>` annotation is somehow not available in `example-graphql` app
-      parameter.type.kind === ReflectionKind.unknown,
+      parameter.type.kind === ReflectionKind.unknown*/,
   );
 }
 
