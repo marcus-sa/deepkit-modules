@@ -1,5 +1,12 @@
 
 
+## [0.4.7](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.6...graphql-v0.4.7) (2023-10-05)
+
+
+### Bug Fixes
+
+* **graphql:** don't get meta annotations when type kind is unknown ([41c2728](https://github.com/marcus-sa/deepkit-modules/commit/41c27283c7330b5a1b23a65e1ed6fdf0bbe150fb))
+
 ## [0.4.6](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.5...graphql-v0.4.6) (2023-09-29)
 
 
