@@ -44,29 +44,29 @@ export class SchemaBuilder {
   }
 
   generateMutationResolverFields(): GraphQLFieldConfigMap<unknown, unknown> {
-    return [...this.options.resolvers.instances].reduce<GraphQLFieldConfigMap<unknown, unknown>>(
+    return [...this.options.resolvers.instances].reduce<
+      GraphQLFieldConfigMap<unknown, unknown>
+    >(
       (fields, instance) => ({
         // TODO: validate that fields don't override each other
         ...fields,
-        ...this.typesBuilder.generateMutationResolverFields(
-          instance,
-        ),
+        ...this.typesBuilder.generateMutationResolverFields(instance),
       }),
       {},
-    )
+    );
   }
 
   generateQueryResolverFields(): GraphQLFieldConfigMap<unknown, unknown> {
-    return [...this.options.resolvers.instances].reduce<GraphQLFieldConfigMap<unknown, unknown>>(
+    return [...this.options.resolvers.instances].reduce<
+      GraphQLFieldConfigMap<unknown, unknown>
+    >(
       (fields, instance) => ({
         // TODO: validate that fields don't override each other
         ...fields,
-        ...this.typesBuilder.generateQueryResolverFields(
-          instance,
-        ),
+        ...this.typesBuilder.generateQueryResolverFields(instance),
       }),
       {},
-    )
+    );
   }
 
   private buildRootMutationType(): GraphQLObjectType | undefined {

@@ -1,12 +1,12 @@
 import { ClassType } from '@deepkit/core';
 import {
-  memberNameToString,
   ReceiveType,
   ReflectionClass,
   ReflectionKind,
   ReflectionParameter,
   resolveReceiveType,
   resolveRuntimeType,
+  stringifyType,
   Type,
   TypeArray,
   TypeClass,
@@ -14,7 +14,6 @@ import {
   TypeNumberBrand,
   TypeObjectLiteral,
   TypeUnion,
-  stringifyShortResolvedType,
 } from '@deepkit/type';
 import {
   GraphQLBoolean,
@@ -40,6 +39,7 @@ import {
 import {
   GraphQLBigInt,
   GraphQLByte,
+  GraphQLDateTime,
   GraphQLNegativeFloat,
   GraphQLNegativeInt,
   GraphQLNonNegativeFloat,
@@ -48,7 +48,6 @@ import {
   GraphQLNonPositiveInt,
   GraphQLPositiveFloat,
   GraphQLPositiveInt,
-  GraphQLDateTime,
   GraphQLUUID,
   GraphQLVoid,
 } from 'graphql-scalars';
@@ -69,13 +68,11 @@ export function unwrapPromiseLikeType(type: Type): Type {
   return type.kind === ReflectionKind.promise ? type.type : type;
 }
 
-export function getTypeName(
-  type: TypeObjectLiteral | TypeClass | TypeUnion,
-): string | undefined {
-  return type.kind === ReflectionKind.class
-    ? type.classType.name
-    : type.typeName;
-}
+const removeNonAlphanumericCharacters = (text: string) =>
+  text.replace(/\W/g, '');
+
+export const getTypeName = (type: Type): string =>
+  removeNonAlphanumericCharacters(stringifyType(type));
 
 export class TypeNameRequiredError extends Error {
   constructor(readonly type: Type) {
@@ -249,12 +246,8 @@ export class TypesBuilder {
       return this.createOutputObjectType(type);
     });
 
-    if (!type.typeName) {
-      throw new Error('Type must be referenced and named');
-    }
-
     const unionType = new GraphQLUnionType({
-      name: type.typeName,
+      name: getTypeName(type),
       types,
     });
     this.unionTypes.set(type, unionType);
