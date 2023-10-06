@@ -1,9 +1,4 @@
-import {
-  GraphQLEnumType,
-  GraphQLID,
-  GraphQLNonNull,
-  GraphQLUnionType,
-} from 'graphql';
+import { GraphQLEnumType, GraphQLID, GraphQLUnionType } from 'graphql';
 import {
   float,
   float32,
@@ -16,7 +11,8 @@ import {
   NegativeNoZero,
   Positive,
   PositiveNoZero,
-  ReflectionClass, ReflectionMethod,
+  ReflectionMethod,
+  stringifyType,
   typeOf,
   UUID,
 } from '@deepkit/type';
@@ -44,7 +40,7 @@ import {
   GraphQLFloat,
 } from 'graphql';
 
-import { TypesBuilder, ID } from './types-builder';
+import { TypesBuilder, ID, getTypeName } from './types-builder';
 
 describe('TypesBuilder', () => {
   let builder: TypesBuilder;
@@ -85,19 +81,19 @@ describe('TypesBuilder', () => {
     expect(list).toBeInstanceOf(GraphQLList);
     expect(list.ofType.name).toEqual('AnimalU');
     expect(list.ofType.toConfig()).toMatchInlineSnapshot(`
-    {
-      "astNode": undefined,
-      "description": undefined,
-      "extensionASTNodes": [],
-      "extensions": {},
-      "name": "AnimalU",
-      "resolveType": undefined,
-      "types": [
-        "Dog",
-        "Cat",
-      ],
-    }
-  `);
+          {
+            "astNode": undefined,
+            "description": undefined,
+            "extensionASTNodes": [],
+            "extensions": {},
+            "name": "AnimalU",
+            "resolveType": undefined,
+            "types": [
+              "Dog",
+              "Cat",
+            ],
+          }
+      `);
   });
 
   test('void', () => {
@@ -270,45 +266,34 @@ describe('TypesBuilder', () => {
     expect(list).toBeInstanceOf(GraphQLObjectType);
     expect(list.name).toEqual('Test');
     expect(list.getFields()).toMatchInlineSnapshot(`
-    {
-      "one": {
-        "args": [],
-        "astNode": undefined,
-        "deprecationReason": undefined,
-        "description": undefined,
-        "extensions": {},
-        "name": "one",
-        "resolve": undefined,
-        "subscribe": undefined,
-        "type": "String!",
-      },
-      "two": {
-        "args": [],
-        "astNode": undefined,
-        "deprecationReason": undefined,
-        "description": undefined,
-        "extensions": {},
-        "name": "two",
-        "resolve": undefined,
-        "subscribe": undefined,
-        "type": "String",
-      },
-    }
-  `);
+          {
+            "one": {
+              "args": [],
+              "astNode": undefined,
+              "deprecationReason": undefined,
+              "description": undefined,
+              "extensions": {},
+              "name": "one",
+              "resolve": undefined,
+              "subscribe": undefined,
+              "type": "String!",
+            },
+            "two": {
+              "args": [],
+              "astNode": undefined,
+              "deprecationReason": undefined,
+              "description": undefined,
+              "extensions": {},
+              "name": "two",
+              "resolve": undefined,
+              "subscribe": undefined,
+              "type": "String",
+            },
+          }
+      `);
   });
 
-  // https://github.com/deepkit/deepkit-framework/issues/469
-  /*test('inline union', () => {
-    interface Dog {}
-
-    interface Cat {}
-
-    expect(() => createOutputType<Dog | Cat>()).toThrowErrorMatchingInlineSnapshot(
-      `"Type must be referenced and named"`,
-    );
-  });*/
-
-  test('inline union', () => {
+  test('../../deepkit/deepkit-framework/dist', () => {
     interface Animal {
       readonly type: string;
     }
@@ -321,90 +306,70 @@ describe('TypesBuilder', () => {
       readonly type: 'cat';
     }
 
-    expect(() =>
-      builder.createOutputType<Dog | Cat>(),
-    ).toThrowErrorMatchingInlineSnapshot(`"Type must be referenced and named"`);
-  });
-
-  test('referenced union', () => {
-    interface Animal {
-      readonly type: string;
-    }
-
-    interface Dog extends Animal {
-      readonly type: 'dog';
-    }
-
-    interface Cat extends Animal {
-      readonly type: 'cat';
-    }
-
-    type Animals = Cat | Dog; // TODO: test union that isn't referenced
-
-    const union = builder.createOutputType<Animals>() as GraphQLUnionType;
+    const union = builder.createOutputType<Cat | Dog>() as GraphQLUnionType;
 
     expect(union.toConfig()).toMatchInlineSnapshot(`
-    {
-      "astNode": undefined,
-      "description": undefined,
-      "extensionASTNodes": [],
-      "extensions": {},
-      "name": "Animals",
-      "resolveType": undefined,
-      "types": [
-        "Cat",
-        "Dog",
-      ],
-    }
-  `);
+          {
+            "astNode": undefined,
+            "description": undefined,
+            "extensionASTNodes": [],
+            "extensions": {},
+            "name": "CatDog",
+            "resolveType": undefined,
+            "types": [
+              "Cat",
+              "Dog",
+            ],
+          }
+      `);
 
     expect(union.getTypes().map(type => type.toConfig()))
       .toMatchInlineSnapshot(`
-    [
-      {
-        "astNode": undefined,
-        "description": undefined,
-        "extensionASTNodes": [],
-        "extensions": {},
-        "fields": {
-          "type": {
-            "args": {},
-            "astNode": undefined,
-            "deprecationReason": undefined,
-            "description": undefined,
-            "extensions": {},
-            "resolve": undefined,
-            "subscribe": undefined,
-            "type": "String!",
-          },
-        },
-        "interfaces": [],
-        "isTypeOf": undefined,
-        "name": "Cat",
-      },
-      {
-        "astNode": undefined,
-        "description": undefined,
-        "extensionASTNodes": [],
-        "extensions": {},
-        "fields": {
-          "type": {
-            "args": {},
-            "astNode": undefined,
-            "deprecationReason": undefined,
-            "description": undefined,
-            "extensions": {},
-            "resolve": undefined,
-            "subscribe": undefined,
-            "type": "String!",
-          },
-        },
-        "interfaces": [],
-        "isTypeOf": undefined,
-        "name": "Dog",
-      },
-    ]
-  `);
+          [
+            {
+              "astNode": undefined,
+              "description": undefined,
+              "extensionASTNodes": [],
+              "extensions": {},
+              "fields": {
+                "type": {
+                  "args": {},
+                  "astNode": undefined,
+                  "deprecationReason": undefined,
+                  "description": undefined,
+                  "extensions": {},
+                  "resolve": undefined,
+                  "subscribe": undefined,
+                  "type": "String!",
+                },
+              },
+              "interfaces": [],
+              "isTypeOf": undefined,
+              "name": "Cat",
+            },
+            {
+              "astNode": undefined,
+              "description": undefined,
+              "extensionASTNodes": [],
+              "extensions": {},
+              "fields": {
+                "type": {
+                  "args": {},
+                  "astNode": undefined,
+                  "deprecationReason": undefined,
+                  "description": undefined,
+                  "extensions": {},
+                  "resolve": undefined,
+                  "subscribe": undefined,
+                  "type": "String!",
+                },
+              },
+              "interfaces": [],
+              "isTypeOf": undefined,
+              "name": "Dog",
+            },
+          ]
+      `);
   });
 
   test('enum', () => {
@@ -416,30 +381,30 @@ describe('TypesBuilder', () => {
     const enumType = builder.createOutputType<Color>() as GraphQLEnumType;
 
     expect(enumType.toConfig()).toMatchInlineSnapshot(`
-    {
-      "astNode": undefined,
-      "description": undefined,
-      "extensionASTNodes": [],
-      "extensions": {},
-      "name": "Color",
-      "values": {
-        "BLUE": {
-          "astNode": undefined,
-          "deprecationReason": undefined,
-          "description": undefined,
-          "extensions": {},
-          "value": 1,
-        },
-        "RED": {
-          "astNode": undefined,
-          "deprecationReason": undefined,
-          "description": undefined,
-          "extensions": {},
-          "value": 0,
-        },
-      },
-    }
-  `);
+          {
+            "astNode": undefined,
+            "description": undefined,
+            "extensionASTNodes": [],
+            "extensions": {},
+            "name": "Color",
+            "values": {
+              "BLUE": {
+                "astNode": undefined,
+                "deprecationReason": undefined,
+                "description": undefined,
+                "extensions": {},
+                "value": 1,
+              },
+              "RED": {
+                "astNode": undefined,
+                "deprecationReason": undefined,
+                "description": undefined,
+                "extensions": {},
+                "value": 0,
+              },
+            },
+          }
+      `);
   });
 
   test('circular references', () => {
@@ -457,64 +422,65 @@ describe('TypesBuilder', () => {
       builder.createOutputType<User>() as GraphQLObjectType;
 
     expect(userObjectType.getFields()).toMatchInlineSnapshot(`
-    {
-      "id": {
-        "args": [],
-        "astNode": undefined,
-        "deprecationReason": undefined,
-        "description": undefined,
-        "extensions": {},
-        "name": "id",
-        "resolve": undefined,
-        "subscribe": undefined,
-        "type": "String!",
-      },
-      "posts": {
-        "args": [],
-        "astNode": undefined,
-        "deprecationReason": undefined,
-        "description": undefined,
-        "extensions": {},
-        "name": "posts",
-        "resolve": undefined,
-        "subscribe": undefined,
-        "type": "[Post]",
-      },
-    }
-  `);
+          {
+            "id": {
+              "args": [],
+              "astNode": undefined,
+              "deprecationReason": undefined,
+              "description": undefined,
+              "extensions": {},
+              "name": "id",
+              "resolve": undefined,
+              "subscribe": undefined,
+              "type": "String!",
+            },
+            "posts": {
+              "args": [],
+              "astNode": undefined,
+              "deprecationReason": undefined,
+              "description": undefined,
+              "extensions": {},
+              "name": "posts",
+              "resolve": undefined,
+              "subscribe": undefined,
+              "type": "[Post]",
+            },
+          }
+      `);
 
     const postObjectType =
       builder.createOutputType<Post>() as GraphQLObjectType;
 
     expect(postObjectType.getFields()).toMatchInlineSnapshot(`
-    {
-      "author": {
-        "args": [],
-        "astNode": undefined,
-        "deprecationReason": undefined,
-        "description": undefined,
-        "extensions": {},
-        "name": "author",
-        "resolve": undefined,
-        "subscribe": undefined,
-        "type": "User",
-      },
-      "id": {
-        "args": [],
-        "astNode": undefined,
-        "deprecationReason": undefined,
-        "description": undefined,
-        "extensions": {},
-        "name": "id",
-        "resolve": undefined,
-        "subscribe": undefined,
-        "type": "String!",
-      },
-    }
-  `);
+          {
+            "author": {
+              "args": [],
+              "astNode": undefined,
+              "deprecationReason": undefined,
+              "description": undefined,
+              "extensions": {},
+              "name": "author",
+              "resolve": undefined,
+              "subscribe": undefined,
+              "type": "User",
+            },
+            "id": {
+              "args": [],
+              "astNode": undefined,
+              "deprecationReason": undefined,
+              "description": undefined,
+              "extensions": {},
+              "name": "id",
+              "resolve": undefined,
+              "subscribe": undefined,
+              "type": "String!",
+            },
+          }
+      `);
   });
 
-  test('implements', () => {
+  test.todo(
+    'extends' /*, () => {
     class Produce {}
 
     class Fruit extends Produce {}
@@ -522,7 +488,20 @@ describe('TypesBuilder', () => {
     class Vegetable extends Produce {}
 
     console.log(typeOf<Vegetable>());
-  });
+  }*/,
+  );
+
+  test.todo(
+    'implements' /*, () => {
+    class Produce {}
+
+    class Fruit extends Produce {}
+
+    class Vegetable extends Produce {}
+
+    console.log(typeOf<Vegetable>());
+  }*/,
+  );
 
   test('extends', () => {
     interface Produce {
@@ -539,5 +518,44 @@ describe('TypesBuilder', () => {
     }
 
     console.log(typeOf<Vegetable>());
+  });
+});
+
+describe('getTypeName', () => {
+  test('union', () => {
+    interface Animal {
+      readonly type: string;
+    }
+
+    interface Dog extends Animal {
+      readonly type: 'dog';
+    }
+
+    interface Cat extends Animal {
+      readonly type: 'cat';
+    }
+
+    expect(getTypeName(typeOf<Dog | Cat>())).toMatchInlineSnapshot(`"DogCat"`);
+  });
+
+  test('Pick', async () => {
+    interface Test {
+      readonly id: integer;
+      readonly username: string;
+    }
+
+    expect(getTypeName(typeOf<Pick<Test, 'id'>>())).toMatchInlineSnapshot(
+      `"PickTestid"`,
+    );
+  });
+
+  test('generic interface', async () => {
+    interface Test2<T> {
+      readonly name: T;
+    }
+
+    expect(
+      stringifyType(typeOf<Test2<'deepkit'>>()).replace(/\W/g, ''),
+    ).toMatchInlineSnapshot(`"Test2deepkit"`);
   });
 });
