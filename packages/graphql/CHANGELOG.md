@@ -1,5 +1,12 @@
 
 
+## [0.5.0](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.7...graphql-v0.5.0) (2023-10-06)
+
+
+### Features
+
+* **graphql:** better resolve type names ([2a72e5c](https://github.com/marcus-sa/deepkit-modules/commit/2a72e5c5951c2a39eca74560699e61e92be1adec))
+
 ## [0.4.7](https://github.com/marcus-sa/deepkit-modules/compare/graphql-v0.4.6...graphql-v0.4.7) (2023-10-05)
 
 
