@@ -1,5 +1,7 @@
 
 
+## [0.2.12](https://github.com/marcus-sa/deepkit-modules/compare/nx-webpack-plugin-v0.2.11...nx-webpack-plugin-v0.2.12) (2023-10-12)
+
 ## [0.2.11](https://github.com/marcus-sa/deepkit-modules/compare/nx-webpack-plugin-v0.2.10...nx-webpack-plugin-v0.2.11) (2023-10-12)
 
 ## [0.2.10](https://github.com/marcus-sa/deepkit-modules/compare/nx-webpack-plugin-v0.2.9...nx-webpack-plugin-v0.2.10) (2023-10-06)
