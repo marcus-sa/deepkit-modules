@@ -16,16 +16,12 @@ import {
   TypeUnion,
 } from '@deepkit/type';
 import {
-  GraphQLBoolean,
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
   GraphQLFieldConfig,
   GraphQLFieldConfigMap,
-  GraphQLFloat,
-  GraphQLID,
   GraphQLInputObjectType,
   GraphQLInputType,
-  GraphQLInt,
   GraphQLList,
   GraphQLNamedInputType,
   GraphQLNamedOutputType,
@@ -33,24 +29,8 @@ import {
   GraphQLObjectType,
   GraphQLOutputType,
   GraphQLScalarType,
-  GraphQLString,
   GraphQLUnionType,
 } from 'graphql';
-import {
-  GraphQLBigInt,
-  GraphQLByte,
-  GraphQLDateTime,
-  GraphQLNegativeFloat,
-  GraphQLNegativeInt,
-  GraphQLNonNegativeFloat,
-  GraphQLNonNegativeInt,
-  GraphQLNonPositiveFloat,
-  GraphQLNonPositiveInt,
-  GraphQLPositiveFloat,
-  GraphQLPositiveInt,
-  GraphQLUUID,
-  GraphQLVoid,
-} from 'graphql-scalars';
 
 import { gqlResolverDecorator, typeResolvers } from './decorators';
 import {
@@ -58,6 +38,26 @@ import {
   filterReflectionParametersMetaAnnotationsForArguments,
   Resolvers,
 } from './resolvers';
+import {
+  BigInt,
+  Void,
+  Boolean,
+  ID as GraphQLID,
+  Float,
+  PositiveFloat,
+  NegativeFloat,
+  NonPositiveFloat,
+  NonNegativeFloat,
+  PositiveInt,
+  Int,
+  NegativeInt,
+  NonNegativeInt,
+  NonPositiveInt,
+  String,
+  UUID,
+  DateTime,
+  Byte,
+} from './scalars';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type Instance<T = any> = T & { readonly constructor: Function };
@@ -125,17 +125,17 @@ export class TypesBuilder {
 
     switch (type.kind) {
       case ReflectionKind.boolean:
-        return GraphQLBoolean;
+        return Boolean;
 
       case ReflectionKind.class:
         return this.getScalarTypeForClass(type);
 
       case ReflectionKind.undefined:
       case ReflectionKind.void:
-        return GraphQLVoid;
+        return Void;
 
       case ReflectionKind.bigint:
-        return GraphQLBigInt;
+        return BigInt;
 
       case ReflectionKind.number: {
         const hasPositiveNoZeroDecorator = type.decorators?.find(
@@ -156,11 +156,11 @@ export class TypesBuilder {
           type.brand === TypeNumberBrand.float32 ||
           type.brand === TypeNumberBrand.float64
         ) {
-          if (hasPositiveNoZeroDecorator) return GraphQLPositiveFloat;
-          if (hasNegativeNoZeroDecorator) return GraphQLNegativeFloat;
-          if (hasNegativeDecorator) return GraphQLNonPositiveFloat;
-          if (hasPositiveDecorator) return GraphQLNonNegativeFloat;
-          return GraphQLFloat;
+          if (hasPositiveNoZeroDecorator) return PositiveFloat;
+          if (hasNegativeNoZeroDecorator) return NegativeFloat;
+          if (hasNegativeDecorator) return NonPositiveFloat;
+          if (hasPositiveDecorator) return NonNegativeFloat;
+          return Float;
         }
 
         if (
@@ -168,7 +168,7 @@ export class TypesBuilder {
           type.brand === TypeNumberBrand.uint16 ||
           type.brand === TypeNumberBrand.uint32
         ) {
-          return GraphQLPositiveInt;
+          return PositiveInt;
         }
 
         if (
@@ -177,22 +177,22 @@ export class TypesBuilder {
           type.brand === TypeNumberBrand.int16 ||
           type.brand === TypeNumberBrand.int32
         ) {
-          if (hasPositiveNoZeroDecorator) return GraphQLPositiveInt;
-          if (hasNegativeNoZeroDecorator) return GraphQLNegativeInt;
-          if (hasNegativeDecorator) return GraphQLNonPositiveInt;
-          if (hasPositiveDecorator) return GraphQLNonNegativeInt;
-          return GraphQLInt;
+          if (hasPositiveNoZeroDecorator) return PositiveInt;
+          if (hasNegativeNoZeroDecorator) return NegativeInt;
+          if (hasNegativeDecorator) return NonPositiveInt;
+          if (hasPositiveDecorator) return NonNegativeInt;
+          return Int;
         }
 
         throw new Error(`Add a decorator to type "number"`);
       }
 
       case ReflectionKind.literal:
-        return GraphQLString;
+        return String;
 
       case ReflectionKind.string:
-        if (type.typeName === 'UUID') return GraphQLUUID;
-        return GraphQLString;
+        if (type.typeName === 'UUID') return UUID;
+        return String;
 
       default:
         console.log(type);
@@ -211,6 +211,10 @@ export class TypesBuilder {
 
     const enumType = new GraphQLEnumType({
       name: type.typeName,
+      // TODO
+      // description: '',
+      // TODO
+      // deprecationReason: '',
       values: Object.entries(type.enum).reduce<GraphQLEnumValueConfigMap>(
         (values, [key, value]) => ({
           [key]: { value },
@@ -248,6 +252,10 @@ export class TypesBuilder {
 
     const unionType = new GraphQLUnionType({
       name: getTypeName(type),
+      // TODO
+      // description: '',
+      // TODO
+      // deprecationReason: '',
       types,
     });
     this.unionTypes.set(type, unionType);
@@ -270,11 +278,11 @@ export class TypesBuilder {
   getScalarTypeForClass(type: TypeClass): GraphQLScalarType {
     switch (type.classType.name) {
       case Date.name:
-        return GraphQLDateTime;
+        return DateTime;
 
       case ArrayBuffer.name:
       case Uint8Array.name:
-        return GraphQLByte;
+        return Byte;
 
       default:
         throw new Error(
@@ -449,7 +457,13 @@ export class TypesBuilder {
           type = new GraphQLNonNull(type);
         }
 
-        let config: GraphQLFieldConfig<unknown, unknown> = { type };
+        let config: GraphQLFieldConfig<unknown, unknown> = {
+          // TODO
+          // description: '',
+          // TODO
+          // deprecationReason: '',
+          type,
+        };
 
         if (resolver && this.hasFieldResolver(resolver, property.name)) {
           // eslint-disable-next-line functional/immutable-data
@@ -514,7 +528,16 @@ export class TypesBuilder {
           type = new GraphQLNonNull(type);
         }
 
-        return [property.name, { type }];
+        return [
+          property.name,
+          {
+            // TODO
+            // description: '',
+            // TODO
+            // deprecationReason: '',
+            type,
+          },
+        ];
       }),
     ) as GraphQLFields<GraphQLInputType>;
   }
@@ -531,6 +554,10 @@ export class TypesBuilder {
 
     const objectType = new GraphQLObjectType({
       name,
+      // TODO
+      // description: '',
+      // TODO
+      // deprecationReason: '',
       fields: () => {
         const fields = this.createOutputFields(type);
         return { ...fields, ...extraFields };
@@ -550,6 +577,10 @@ export class TypesBuilder {
 
     const inputObjectType = new GraphQLInputObjectType({
       name,
+      // TODO
+      // description: '',
+      // TODO
+      // deprecationReason: '',
       fields: () => this.createInputFields(type),
     });
     this.inputObjectTypes.set(name, inputObjectType);
