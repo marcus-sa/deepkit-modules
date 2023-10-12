@@ -8,14 +8,16 @@ import {
   ReflectionMethod,
   ReflectionParameter,
   serialize,
+  serializeFunction,
   serializer,
   TypeObjectLiteral,
   TypePropertySignature,
-  validate,
+  validateFunction,
   ValidationError,
 } from '@deepkit/type';
 
 import { CONTEXT_META_NAME, Instance, PARENT_META_NAME } from './types-builder';
+import { deserializeFunction } from '@deepkit/type';
 
 export class DeepkitGraphQLResolvers extends Set<{
   readonly module: InjectorModule;
@@ -43,7 +45,7 @@ export function getParentMetaAnnotationReflectionParameterIndex(
 ): number {
   return parameters.findIndex(
     ({ parameter }) =>
-      metaAnnotation.getForName(parameter.type, PARENT_META_NAME)/* ||
+      metaAnnotation.getForName(parameter.type, PARENT_META_NAME) /* ||
       // FIXME: `Parent<T>` annotation is somehow not available in `example-graphql` app
       parameter.type.kind === ReflectionKind.unknown*/,
   );
@@ -54,7 +56,7 @@ export function getContextMetaAnnotationReflectionParameterIndex(
 ): number {
   return parameters.findIndex(
     ({ parameter }) =>
-      metaAnnotation.getForName(parameter.type, CONTEXT_META_NAME)/* ||
+      metaAnnotation.getForName(parameter.type, CONTEXT_META_NAME) /* ||
       // FIXME: `Context<T>` annotation is somehow not available in `example-graphql` app
       parameter.type.kind === ReflectionKind.unknown*/,
   );
@@ -88,7 +90,7 @@ export function filterReflectionParametersMetaAnnotationsForArguments(
 export function createResolveFunction<Resolver, Args extends unknown[] = []>(
   instance: Resolver,
   { parameters, name, type }: ReflectionMethod,
-): GraphQLFieldResolver<unknown, unknown, Args> {
+): GraphQLFieldResolver<unknown, unknown, any> {
   // @ts-ignore
   const resolve = instance[name as keyof Resolver].bind(instance) as (
     ...args: Args
@@ -115,8 +117,25 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
   const contextParameterIndex =
     getContextMetaAnnotationReflectionParameterIndex(parameters);
 
-  return async (parent, args, context) => {
-    const argsValidationErrors = validate(args, argsType);
+  const deserializeArgs = deserializeFunction(
+    { loosely: false },
+    serializer,
+    undefined,
+    argsType,
+  );
+
+  const validateArgs = validateFunction(serializer, argsType);
+
+  const serializeResult = serializeFunction(
+    undefined,
+    serializer,
+    undefined,
+    type.return,
+  );
+
+  return async (parent, _args, context) => {
+    const args = deserializeArgs(_args) as Record<string, unknown>; // might return undefined ?
+    const argsValidationErrors = validateArgs(args);
     if (argsValidationErrors.length) {
       const originalError = new ValidationError(argsValidationErrors);
       throw new GraphQLError(originalError.message, {
@@ -125,14 +144,8 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
       });
     }
 
-    const resolveArgs = argsParameters.map(parameter =>
-      deserialize(
-        args[parameter.name as keyof Args],
-        undefined,
-        serializer,
-        undefined,
-        parameter.type,
-      ),
+    const resolveArgs = argsParameters.map(
+      parameter => args[parameter.name],
     ) as Parameters<typeof resolve>;
 
     if (parentParameterIndex !== -1) {
@@ -146,7 +159,6 @@ export function createResolveFunction<Resolver, Args extends unknown[] = []>(
     }
 
     const result = await resolve(...resolveArgs);
-
-    return serialize(result, undefined, serializer, undefined, type.return);
+    return serializeResult(result);
   };
 }
