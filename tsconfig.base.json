@@ -21,15 +21,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@deepkit-modules/apollo-graphql": [
-        "packages/apollo-graphql/src/index.ts"
-      ],
-      "@deepkit-modules/graphql": ["packages/graphql/src/index.ts"],
       "@deepkit-modules/nx-webpack-plugin": [
         "packages/nx-webpack-plugin/src/index.ts"
       ],
       "@deepkit-modules/remix": ["packages/remix/src/index.ts"],
-      "@deepkit-modules/remix-validated-form": ["packages/remix-validated-form/src/index.ts"]
+      "@deepkit-modules/remix-validated-form": [
+        "packages/remix-validated-form/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"],
