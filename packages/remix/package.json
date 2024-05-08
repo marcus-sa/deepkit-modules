@@ -1,6 +1,6 @@
 {
   "name": "deepkit-remix",
-  "version": "0.2.13",
+  "version": "0.3.0",
   "type": "module",
   "main": "./src/index.js",
   "module": "./src/index.js",

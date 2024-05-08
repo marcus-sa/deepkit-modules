@@ -1,5 +1,13 @@
 
 
+## [0.3.0](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.11...remix-v0.3.0) (2024-05-08)
+
+
+### Features
+
+* **remix:** upgrade ([3878da5](https://github.com/marcus-sa/deepkit-modules/commit/3878da50486fcbcde8abae364ec1d49f40cc88d2))
+* **remix:** upgrade ([584497f](https://github.com/marcus-sa/deepkit-modules/commit/584497fbbc7ce6158fd72840c683787ba5935f1d))
+
 ## [0.2.13](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.10...remix-v0.2.13) (2023-11-11)
 
 ## [0.2.12](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.9...remix-v0.2.12) (2023-10-12)
