@@ -1,8 +1,9 @@
 {
-  "name": "@deepkit-modules/remix",
+  "name": "deepkit-remix",
   "version": "0.2.13",
-  "type": "commonjs",
+  "type": "module",
   "main": "./src/index.js",
+  "module": "./src/index.js",
   "typings": "./src/index.d.ts",
   "repository": {
     "type": "git",
@@ -12,8 +13,8 @@
     "tslib": "2.6.2"
   },
   "peerDependencies": {
-    "@remix-run/server-runtime": "1.19.3",
-    "@remix-run/node": "1.19.3"
+    "@remix-run/server-runtime": "2.9.1",
+    "@remix-run/node": "2.9.1"
   },
   "publishConfig": {
     "access": "public"

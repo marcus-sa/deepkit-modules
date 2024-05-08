@@ -5,8 +5,8 @@ import type { ServerBuild } from '@remix-run/server-runtime';
 import type { AppLoadContext } from '@remix-run/node';
 import { createRequestHandler as createRemixRequestHandler } from '@remix-run/node';
 
-import { createRemixRequest, sendRemixResponse } from './utils';
-import { APP_LOAD_CONTEXT, GET_SERVER_BUILD } from './remix-app-config';
+import { createRemixRequest, sendRemixResponse } from './utils.js';
+import { APP_LOAD_CONTEXT, LOAD_SERVER_BUILD_FN, LoadServerBuildFn } from './remix-app-config.js';
 
 export class RemixAppController {
   constructor(private readonly injector: InjectorContext) {}
@@ -16,12 +16,12 @@ export class RemixAppController {
     event: typeof httpWorkflow.onRouteNotFound.event,
   ): Promise<void> {
     if (event.request.url) {
-      const build = this.injector.get<() => ServerBuild>(GET_SERVER_BUILD)();
+      const loadServerBuild = this.injector.get<LoadServerBuildFn>(LOAD_SERVER_BUILD_FN);
 
       const handleRequest = createRemixRequestHandler(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        build,
+        loadServerBuild,
         process.env.NODE_ENV,
       );
 

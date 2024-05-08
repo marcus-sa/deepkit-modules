@@ -2,12 +2,13 @@ import { createModule } from '@deepkit/app';
 import type { ServerBuild } from '@remix-run/server-runtime';
 import type { AppLoadContext } from '@remix-run/node';
 
-import { RemixAppController } from './remix-app.controller';
+import { RemixAppController } from './remix-app.controller.js';
 import {
   APP_LOAD_CONTEXT,
-  GET_SERVER_BUILD,
+  LOAD_SERVER_BUILD_FN,
+  LoadServerBuildFn,
   RemixAppConfig,
-} from './remix-app-config';
+} from './remix-app-config.js';
 
 export class RemixAppModule extends createModule({
   config: RemixAppConfig,
@@ -15,9 +16,9 @@ export class RemixAppModule extends createModule({
   listeners: [RemixAppController],
   forRoot: true,
 }) {
-  getServerBuild(load: () => ServerBuild): this {
+  getServerBuild(load: LoadServerBuildFn): this {
     this.addProvider({
-      provide: GET_SERVER_BUILD,
+      provide: LOAD_SERVER_BUILD_FN,
       useValue: load,
     });
     return this;
