@@ -1,6 +1,6 @@
 import { HttpRequest } from '@deepkit/http';
 
-import { createRemixRequest } from '@deepkit-modules/remix';
+import { createRemixRequest } from 'deepkit-remix';
 
 export class AuthService {
   async getSessionFromDeepkit(request: HttpRequest): Promise<{} | null> {

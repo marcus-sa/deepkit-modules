@@ -54,6 +54,7 @@
         "webpackConfig": "apps/example-remix/webpack.config.ts",
         "tsConfig": "apps/example-remix/tsconfig.server.json",
         "assets": ["apps/example-remix/public"],
+        "buildLibsFromSource": false,
         "sourceMap": false
       },
       "configurations": {

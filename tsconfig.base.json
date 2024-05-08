@@ -24,7 +24,7 @@
       "@deepkit-modules/nx-webpack-plugin": [
         "packages/nx-webpack-plugin/src/index.ts"
       ],
-      "@deepkit-modules/remix": ["packages/remix/src/index.ts"],
+      "deepkit-remix": ["packages/remix/src/index.ts"],
       "@deepkit-modules/remix-validated-form": [
         "packages/remix-validated-form/src/index.ts"
       ]

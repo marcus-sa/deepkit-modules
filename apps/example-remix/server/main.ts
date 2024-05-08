@@ -3,7 +3,7 @@ import { App } from '@deepkit/app';
 import { workspaceRoot } from '@nx/devkit';
 import { FrameworkModule } from '@deepkit/framework';
 import { AppLoadContext, ServerBuild } from '@remix-run/server-runtime';
-import { RemixAppModule } from '@deepkit-modules/remix';
+import { RemixAppModule } from 'deepkit-remix';
 
 import { AuthMiddleware } from './auth.middleware';
 import { AuthService } from './auth.service';
