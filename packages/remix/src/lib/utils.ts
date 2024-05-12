@@ -57,7 +57,7 @@ export async function sendRemixResponse(
   res: HttpResponse,
   nodeRes: Response,
 ): Promise<void> {
-  const headers: Record<string, string | []> = {}
+  const headers: Record<string, string | string[]> = {}
 
   nodeRes.headers.forEach((value, key) => {
     if (key in headers) {
