@@ -57,10 +57,17 @@ export async function sendRemixResponse(
   res: HttpResponse,
   nodeRes: Response,
 ): Promise<void> {
-  const headers: Record<string, string> = {}
+  const headers: Record<string, string | []> = {}
 
   nodeRes.headers.forEach((value, key) => {
-    headers[key] = value;
+    if (key in headers) {
+      if (!Array.isArray(headers[key])) {
+        headers[key] = [headers[key]];
+      }
+      headers[key].push(value);
+    } else {
+      headers[key] = value;
+    }
   });
 
   res.writeHead(nodeRes.status, nodeRes.statusText, headers);
