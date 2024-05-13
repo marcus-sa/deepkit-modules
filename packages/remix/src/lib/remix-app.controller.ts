@@ -27,8 +27,7 @@ export class RemixAppController {
 
       const request = await createRemixRequest(event.request, event.response);
 
-      const httpScope = this.injector.createChildScope('http');
-      const loadContext = httpScope.get<AppLoadContext>(APP_LOAD_CONTEXT);
+      const loadContext = this.injector.get<AppLoadContext>(APP_LOAD_CONTEXT);
 
       const response = await handleRequest(
         request,
