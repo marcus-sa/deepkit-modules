@@ -62,9 +62,9 @@ export async function sendRemixResponse(
   nodeRes.headers.forEach((value, key) => {
     if (key in headers) {
       if (!Array.isArray(headers[key])) {
-        headers[key] = [headers[key]];
+        headers[key] = [headers[key] as string];
       }
-      headers[key].push(value);
+      (headers[key] as string[]).push(value);
     } else {
       headers[key] = value;
     }
