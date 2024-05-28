@@ -153,7 +153,6 @@ export function withDeepkit<T extends GenericObject>(
       const errors = validate(incomingData, type);
 
       if (errors.length) {
-        console.error(errors);
         const error = validationErrorsToFieldErrors(errors);
         return { error, data: undefined };
       }

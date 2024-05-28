@@ -1,1 +1,2 @@
-export * from './lib/validator';
+export * from './lib/validator.js';
+export * from './lib/DeepkitValidatedForm.js'

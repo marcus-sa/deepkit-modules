@@ -1,6 +1,6 @@
 import { float } from '@deepkit/type';
 
-import { withDeepkit } from './validator';
+import { withDeepkit } from './validator.js';
 
 describe('withDeepkit', () => {
   test('array with interface', async () => {
