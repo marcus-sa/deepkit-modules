@@ -1,5 +1,12 @@
 
 
+## [0.3.0](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.13...remix-validated-form-v0.3.0) (2024-05-28)
+
+
+### Features
+
+* **remix-validated-form:** esm only package ([7040b5e](https://github.com/marcus-sa/deepkit-modules/commit/7040b5e503e73633a631b56d468d8ac08b306794))
+
 ## [0.2.13](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.12...remix-validated-form-v0.2.13) (2024-05-13)
 
 ## [0.2.12](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.11...remix-validated-form-v0.2.12) (2024-05-08)
