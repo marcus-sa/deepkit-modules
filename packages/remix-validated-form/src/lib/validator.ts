@@ -86,7 +86,13 @@ export function sanitizeFieldData<T extends GenericObject>(
       return;
     }
 
-    data[field] = data[field].split(',');
+    if (Array.isArray(data[field])) {
+      data[field] = data[field];
+    } else if (typeof data[field] === 'string') {
+      data[field] = data[field].split(',');
+    } else {
+      data[field] = [data[field]];
+    }
 
     if (
       (subType.kind !== ReflectionKind.string &&
@@ -94,7 +100,7 @@ export function sanitizeFieldData<T extends GenericObject>(
       (subType.kind === ReflectionKind.union &&
         !subType.types.some(type => type.kind === ReflectionKind.string))
     ) {
-      data[field] = data[field].filter((value: string) => value.trim() !== '');
+      data[field] = data[field].filter((value: File | string) => value instanceof File || value.trim() !== '');
     }
 
     if (
