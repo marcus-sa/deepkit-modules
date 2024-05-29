@@ -1,5 +1,7 @@
 
 
+## [0.3.3](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.3.0...remix-v0.3.3) (2024-05-29)
+
 ## [0.3.2](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.13...remix-v0.3.2) (2024-05-28)
 
 ## [0.3.1](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.12...remix-v0.3.1) (2024-05-13)
