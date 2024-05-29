@@ -1,5 +1,12 @@
 
 
+## [0.4.0](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.3.0...remix-validated-form-v0.4.0) (2024-05-29)
+
+
+### Features
+
+* **remix-validated-form:** add support for multi fields and files ([78962f9](https://github.com/marcus-sa/deepkit-modules/commit/78962f9db7e50e4f72c0c65ef78d0de29a15d7a5))
+
 ## [0.3.0](https://github.com/marcus-sa/deepkit-modules/compare/remix-validated-form-v0.2.13...remix-validated-form-v0.3.0) (2024-05-28)
 
 
